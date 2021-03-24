@@ -1,0 +1,36 @@
+//*****************************Ultrasonic distance driver ********************************
+void InitTimer()
+{
+	TMOD = 0x01;
+	TH0 = 0;
+	TL0 = 0;
+	ET0 = 1;
+	EA = 1;
+}
+
+uint time;
+uint s;
+void Count()
+{
+	time = TH0*0x100 + TL0;
+	TH0 = 0;
+	TH1 = 1;
+
+	s = (time/58.0)*10;
+	if(s>=4000|flag==1)
+	{
+		flag = 0;
+		Display[0] = 0x40;
+		Display[1] = 0x40;
+		Display[2] = 0x40;
+		Display[3] = 0x40;
+	}
+	else
+	{
+		Display[0] = smgduan[s/1000]|0x80;
+		Display[1] = smgduan[s%1000/100];
+		Display[2] = smgduan[s%100/10];
+		Display[3] = smgduan[s%10];
+	}
+}
+

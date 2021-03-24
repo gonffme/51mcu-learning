@@ -1,0 +1,50 @@
+**********************************************DS18B20 temperatrue driver******************************************************
+#define status P3_2
+uchar CurrentT = 0;
+uchar Temp_Value[] = {0x00, 0x00};
+uchar DS18B20_IS_OK = 1;
+
+uchar Init_DS18B20()
+{
+	DQ = 1;
+	delay(8);
+	DQ = 0;
+	delay(50);
+	DQ = 1;
+	delay(7);
+	status = DQ;
+	delay(50);
+	return status;
+}
+uchar ReadOneByte()
+{
+	uchar i, dat=0;
+	DQ = 1;
+	delay(1);
+	for(i=0;i<8;i++)
+	{
+		DQ = 0;
+		dat >>= 1;
+		DQ = 1;
+		1 - 1;
+		1 - 1; //key process: 2us delay is enough. don't make it too long.
+		if(DQ)
+		{
+			dat |= 0x80;
+		}
+		delay(30);
+		DQ = 1;
+	}
+	return dat;
+}
+void WriteOneByte(uchar dat)
+{
+	uchar i;
+	for(i=0;i<8;i++)
+	{
+		DQ = 0;
+		DQ = dat & 0x01;
+		delay(5);
+		DQ = 1;
+		dat >>= 1;
+	}

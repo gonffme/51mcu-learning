@@ -1,0 +1,21 @@
+#include "8051.h"
+
+typedef unsigned char uchar;
+typedef unsigned int uint;
+
+***********************************delay functions******************************************
+void delay(uint i)
+{
+	while(i--);
+}
+
+void DelayXus(uint x)
+{
+	uchar i;
+	while(x--)
+	{
+		for(i=0;i<100;i++);
+	}
+}
+
+
