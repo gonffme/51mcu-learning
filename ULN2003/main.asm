@@ -353,8 +353,8 @@ _delaymore:
 00101$:
 	mov	a,r7
 	jz	00104$
-;	main.c:15: delay(100);
-	mov	dptr,#0x0064
+;	main.c:15: delay(10);
+	mov	dptr,#0x000a
 	push	ar7
 	lcall	_delay
 	pop	ar7
@@ -376,25 +376,25 @@ _main:
 	mov	_P2,#0x00
 ;	main.c:23: while(1)
 00102$:
-;	main.c:25: P0=0x70;
-	mov	_P0,#0x70
-;	main.c:26: delaymore(100);
-	mov	dpl,#0x64
+;	main.c:25: P0=0x10;
+	mov	_P0,#0x10
+;	main.c:26: delaymore(50);
+	mov	dpl,#0x32
 	lcall	_delaymore
-;	main.c:27: P0=0xb0;
-	mov	_P0,#0xb0
-;	main.c:28: delaymore(100);
-	mov	dpl,#0x64
+;	main.c:27: P0=0x20;
+	mov	_P0,#0x20
+;	main.c:28: delaymore(50);
+	mov	dpl,#0x32
 	lcall	_delaymore
-;	main.c:29: P0=0xd0;
-	mov	_P0,#0xd0
-;	main.c:30: delaymore(100);
-	mov	dpl,#0x64
+;	main.c:29: P0=0x40;
+	mov	_P0,#0x40
+;	main.c:30: delaymore(50);
+	mov	dpl,#0x32
 	lcall	_delaymore
-;	main.c:31: P0=0xe0;
-	mov	_P0,#0xe0
-;	main.c:32: delaymore(100);
-	mov	dpl,#0x64
+;	main.c:31: P0=0x80;
+	mov	_P0,#0x80
+;	main.c:32: delaymore(50);
+	mov	dpl,#0x32
 	lcall	_delaymore
 ;	main.c:34: }
 	sjmp	00102$

@@ -36,6 +36,7 @@ void DisplayDigits()
 		LSA = i - 4*LSC - 2*LSB;
 		P0 = Display[i];
 		delay(200);
+		P0 = 0x00;
 	}
 }
 
@@ -65,16 +66,16 @@ uchar ReadOneByte()
 	delay(1);
 	for(i=0;i<8;i++)
 	{
-		DQ = 0;
 		dat >>= 1;
+		DQ = 0;
 		DQ = 1;
-		1 - 1;
-		1 - 1; //key process: 2us delay is enough. don't make it too long.
+		1-1;//key process: 2us delay is enough. don't make it too long.
+		// delay{2}; //for 1T MCU like stc12c5a60s2
 		if(DQ)
 		{
 			dat |= 0x80;
 		}
-		delay(30);
+		delay(4);
 		DQ = 1;
 	}
 	return dat;
@@ -86,7 +87,7 @@ void WriteOneByte(uchar dat)
 	{
 		DQ = 0;
 		DQ = dat & 0x01;
-		delay(5);
+		delay(4);//30-60 us is ok
 		DQ = 1;
 		dat >>= 1;
 	}

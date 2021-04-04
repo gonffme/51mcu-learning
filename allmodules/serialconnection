@@ -1,0 +1,41 @@
+//**************************** serial communication ************************
+
+#define SPEED 0xff  //baudrate
+		    //for f=12.000MHz  1200:0xe6(smod=0)/0xcc(smod=1) 2400:0xf3/0xe6 4800: /0xf3
+	 	    //for f=11.0592MHz 1200:0xe8/0xd0 2400:0xf4/0xe8 4800:0xfa/0xf4 9600:0xfd/0xfa
+		    //19200: /0xfd 57600: /0xff
+
+void Init_Timer()
+{
+	TMOD = 0x21;
+	PCON |= 0x80;
+	//PCON &=0x7f;
+	TH1 = SPEED; 
+	TL1 = SPEED; 
+	TR1 = 1;
+	SCON = 0x50;//	SM0 = 0;SM1 = 1;REN = 1;
+	EA = 1;
+	ES = 1;
+}
+
+void Send_Char(uchar chr)
+{
+	ES = 0;
+	SBUF = chr;
+	while(!TI);
+	TI = 0;
+	ES = 1;
+}
+
+void Send_Str(uchar *str)
+{
+	while(*str != '\0')
+	{
+		ES = 0;
+		SBUF = *str;
+		while(!TI);
+		TI = 0;
+		ES = 1;
+		str++;
+	}
+}

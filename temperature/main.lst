@@ -339,12 +339,12 @@
       00003F 75*15 00         [24]  339 	mov	(_Display + 0x0005),#0x00
       000042 75*16 00         [24]  340 	mov	(_Display + 0x0006),#0x00
       000045 75*17 00         [24]  341 	mov	(_Display + 0x0007),#0x00
-                                    342 ;	main.c:45: uchar CurrentT = 0;
+                                    342 ;	main.c:46: uchar CurrentT = 0;
       000048 75*18 00         [24]  343 	mov	_CurrentT,#0x00
-                                    344 ;	main.c:46: uchar Temp_Value[] = {0x00, 0x00};
+                                    344 ;	main.c:47: uchar Temp_Value[] = {0x00, 0x00};
       00004B 75*19 00         [24]  345 	mov	_Temp_Value,#0x00
       00004E 75*1A 00         [24]  346 	mov	(_Temp_Value + 0x0001),#0x00
-                                    347 ;	main.c:47: uchar DS18B20_IS_OK = 1;
+                                    347 ;	main.c:48: uchar DS18B20_IS_OK = 1;
       000051 75*1B 01         [24]  348 	mov	_DS18B20_IS_OK,#0x01
                                     349 	.area GSFINAL (CODE)
       000000 02r00r03         [24]  350 	ljmp	__sdcc_program_startup
@@ -354,7 +354,7 @@
                                     354 	.area HOME    (CODE)
                                     355 	.area HOME    (CODE)
       000003                        356 __sdcc_program_startup:
-      000003 02r03r39         [24]  357 	ljmp	_main
+      000003 02r03r3C         [24]  357 	ljmp	_main
                                     358 ;	return from main will return to caller
                                     359 ;--------------------------------------------------------
                                     360 ; code
@@ -553,486 +553,488 @@
       0000C5 C0 07            [24]  553 	push	ar7
       0000C7 12r00r00         [24]  554 	lcall	_delay
       0000CA D0 07            [24]  555 	pop	ar7
-                                    556 ;	main.c:32: for(i=0;i<7;i++)
-      0000CC 0F               [12]  557 	inc	r7
-      0000CD BF 07 00         [24]  558 	cjne	r7,#0x07,00111$
-      0000D0                        559 00111$:
-      0000D0 50 03            [24]  560 	jnc	00112$
-      0000D2 02r00r30         [24]  561 	ljmp	00102$
-      0000D5                        562 00112$:
-                                    563 ;	main.c:40: }
-      0000D5 22               [24]  564 	ret
-                                    565 ;------------------------------------------------------------
-                                    566 ;Allocation info for local variables in function 'Init_DS18B20'
+                                    556 ;	main.c:39: P0 = 0x00;
+      0000CC 75 80 00         [24]  557 	mov	_P0,#0x00
+                                    558 ;	main.c:32: for(i=0;i<7;i++)
+      0000CF 0F               [12]  559 	inc	r7
+      0000D0 BF 07 00         [24]  560 	cjne	r7,#0x07,00111$
+      0000D3                        561 00111$:
+      0000D3 50 03            [24]  562 	jnc	00112$
+      0000D5 02r00r30         [24]  563 	ljmp	00102$
+      0000D8                        564 00112$:
+                                    565 ;	main.c:41: }
+      0000D8 22               [24]  566 	ret
                                     567 ;------------------------------------------------------------
-                                    568 ;	main.c:49: uchar Init_DS18B20()
-                                    569 ;	-----------------------------------------
-                                    570 ;	 function Init_DS18B20
+                                    568 ;Allocation info for local variables in function 'Init_DS18B20'
+                                    569 ;------------------------------------------------------------
+                                    570 ;	main.c:50: uchar Init_DS18B20()
                                     571 ;	-----------------------------------------
-      0000D6                        572 _Init_DS18B20:
-                                    573 ;	main.c:51: DQ = 1;
-                                    574 ;	assignBit
-      0000D6 D2 B3            [12]  575 	setb	_P3_3
-                                    576 ;	main.c:52: delay(8);
-      0000D8 90 00 08         [24]  577 	mov	dptr,#0x0008
-      0000DB 12r00r00         [24]  578 	lcall	_delay
-                                    579 ;	main.c:53: DQ = 0;
-                                    580 ;	assignBit
-      0000DE C2 B3            [12]  581 	clr	_P3_3
-                                    582 ;	main.c:54: delay(50);
-      0000E0 90 00 32         [24]  583 	mov	dptr,#0x0032
-      0000E3 12r00r00         [24]  584 	lcall	_delay
-                                    585 ;	main.c:55: DQ = 1;
-                                    586 ;	assignBit
-      0000E6 D2 B3            [12]  587 	setb	_P3_3
-                                    588 ;	main.c:56: delay(7);
-      0000E8 90 00 07         [24]  589 	mov	dptr,#0x0007
-      0000EB 12r00r00         [24]  590 	lcall	_delay
-                                    591 ;	main.c:57: status = DQ;
-                                    592 ;	assignBit
-      0000EE A2 B3            [12]  593 	mov	c,_P3_3
-      0000F0 92 B2            [24]  594 	mov	_P3_2,c
-                                    595 ;	main.c:58: delay(50);
-      0000F2 90 00 32         [24]  596 	mov	dptr,#0x0032
-      0000F5 12r00r00         [24]  597 	lcall	_delay
-                                    598 ;	main.c:59: return status;
-      0000F8 A2 B2            [12]  599 	mov	c,_P3_2
-      0000FA E4               [12]  600 	clr	a
-      0000FB 33               [12]  601 	rlc	a
-      0000FC F5 82            [12]  602 	mov	dpl,a
-                                    603 ;	main.c:60: }
-      0000FE 22               [24]  604 	ret
-                                    605 ;------------------------------------------------------------
-                                    606 ;Allocation info for local variables in function 'ReadOneByte'
+                                    572 ;	 function Init_DS18B20
+                                    573 ;	-----------------------------------------
+      0000D9                        574 _Init_DS18B20:
+                                    575 ;	main.c:52: DQ = 1;
+                                    576 ;	assignBit
+      0000D9 D2 B3            [12]  577 	setb	_P3_3
+                                    578 ;	main.c:53: delay(8);
+      0000DB 90 00 08         [24]  579 	mov	dptr,#0x0008
+      0000DE 12r00r00         [24]  580 	lcall	_delay
+                                    581 ;	main.c:54: DQ = 0;
+                                    582 ;	assignBit
+      0000E1 C2 B3            [12]  583 	clr	_P3_3
+                                    584 ;	main.c:55: delay(50);
+      0000E3 90 00 32         [24]  585 	mov	dptr,#0x0032
+      0000E6 12r00r00         [24]  586 	lcall	_delay
+                                    587 ;	main.c:56: DQ = 1;
+                                    588 ;	assignBit
+      0000E9 D2 B3            [12]  589 	setb	_P3_3
+                                    590 ;	main.c:57: delay(7);
+      0000EB 90 00 07         [24]  591 	mov	dptr,#0x0007
+      0000EE 12r00r00         [24]  592 	lcall	_delay
+                                    593 ;	main.c:58: status = DQ;
+                                    594 ;	assignBit
+      0000F1 A2 B3            [12]  595 	mov	c,_P3_3
+      0000F3 92 B2            [24]  596 	mov	_P3_2,c
+                                    597 ;	main.c:59: delay(50);
+      0000F5 90 00 32         [24]  598 	mov	dptr,#0x0032
+      0000F8 12r00r00         [24]  599 	lcall	_delay
+                                    600 ;	main.c:60: return status;
+      0000FB A2 B2            [12]  601 	mov	c,_P3_2
+      0000FD E4               [12]  602 	clr	a
+      0000FE 33               [12]  603 	rlc	a
+      0000FF F5 82            [12]  604 	mov	dpl,a
+                                    605 ;	main.c:61: }
+      000101 22               [24]  606 	ret
                                     607 ;------------------------------------------------------------
-                                    608 ;i                         Allocated to registers r6 
-                                    609 ;dat                       Allocated to registers r7 
-                                    610 ;------------------------------------------------------------
-                                    611 ;	main.c:61: uchar ReadOneByte()
-                                    612 ;	-----------------------------------------
-                                    613 ;	 function ReadOneByte
+                                    608 ;Allocation info for local variables in function 'ReadOneByte'
+                                    609 ;------------------------------------------------------------
+                                    610 ;i                         Allocated to registers r6 
+                                    611 ;dat                       Allocated to registers r7 
+                                    612 ;------------------------------------------------------------
+                                    613 ;	main.c:62: uchar ReadOneByte()
                                     614 ;	-----------------------------------------
-      0000FF                        615 _ReadOneByte:
-                                    616 ;	main.c:63: uchar i, dat=0;
-      0000FF 7F 00            [12]  617 	mov	r7,#0x00
-                                    618 ;	main.c:64: DQ = 1;
-                                    619 ;	assignBit
-      000101 D2 B3            [12]  620 	setb	_P3_3
-                                    621 ;	main.c:65: delay(1);
-      000103 90 00 01         [24]  622 	mov	dptr,#0x0001
-      000106 C0 07            [24]  623 	push	ar7
-      000108 12r00r00         [24]  624 	lcall	_delay
-      00010B D0 07            [24]  625 	pop	ar7
-                                    626 ;	main.c:66: for(i=0;i<8;i++)
-      00010D 7E 00            [12]  627 	mov	r6,#0x00
-      00010F                        628 00104$:
-                                    629 ;	main.c:68: DQ = 0;
-                                    630 ;	assignBit
-      00010F C2 B3            [12]  631 	clr	_P3_3
-                                    632 ;	main.c:69: dat >>= 1;
-      000111 EF               [12]  633 	mov	a,r7
-      000112 C3               [12]  634 	clr	c
-      000113 13               [12]  635 	rrc	a
-      000114 FF               [12]  636 	mov	r7,a
-                                    637 ;	main.c:70: DQ = 1;
-                                    638 ;	assignBit
-      000115 D2 B3            [12]  639 	setb	_P3_3
-                                    640 ;	main.c:73: if(DQ)
-      000117 30 B3 09         [24]  641 	jnb	_P3_3,00102$
-                                    642 ;	main.c:75: dat |= 0x80;
-      00011A 8F 04            [24]  643 	mov	ar4,r7
-      00011C 7D 00            [12]  644 	mov	r5,#0x00
-      00011E 43 04 80         [24]  645 	orl	ar4,#0x80
-      000121 8C 07            [24]  646 	mov	ar7,r4
-      000123                        647 00102$:
-                                    648 ;	main.c:77: delay(30);
-      000123 90 00 1E         [24]  649 	mov	dptr,#0x001e
-      000126 C0 07            [24]  650 	push	ar7
-      000128 C0 06            [24]  651 	push	ar6
-      00012A 12r00r00         [24]  652 	lcall	_delay
-      00012D D0 06            [24]  653 	pop	ar6
-      00012F D0 07            [24]  654 	pop	ar7
-                                    655 ;	main.c:78: DQ = 1;
-                                    656 ;	assignBit
-      000131 D2 B3            [12]  657 	setb	_P3_3
-                                    658 ;	main.c:66: for(i=0;i<8;i++)
-      000133 0E               [12]  659 	inc	r6
-      000134 BE 08 00         [24]  660 	cjne	r6,#0x08,00122$
-      000137                        661 00122$:
-      000137 40 D6            [24]  662 	jc	00104$
-                                    663 ;	main.c:80: return dat;
-      000139 8F 82            [24]  664 	mov	dpl,r7
-                                    665 ;	main.c:81: }
-      00013B 22               [24]  666 	ret
-                                    667 ;------------------------------------------------------------
-                                    668 ;Allocation info for local variables in function 'WriteOneByte'
+                                    615 ;	 function ReadOneByte
+                                    616 ;	-----------------------------------------
+      000102                        617 _ReadOneByte:
+                                    618 ;	main.c:64: uchar i, dat=0;
+      000102 7F 00            [12]  619 	mov	r7,#0x00
+                                    620 ;	main.c:65: DQ = 1;
+                                    621 ;	assignBit
+      000104 D2 B3            [12]  622 	setb	_P3_3
+                                    623 ;	main.c:66: delay(1);
+      000106 90 00 01         [24]  624 	mov	dptr,#0x0001
+      000109 C0 07            [24]  625 	push	ar7
+      00010B 12r00r00         [24]  626 	lcall	_delay
+      00010E D0 07            [24]  627 	pop	ar7
+                                    628 ;	main.c:67: for(i=0;i<8;i++)
+      000110 7E 00            [12]  629 	mov	r6,#0x00
+      000112                        630 00104$:
+                                    631 ;	main.c:69: dat >>= 1;
+      000112 EF               [12]  632 	mov	a,r7
+      000113 C3               [12]  633 	clr	c
+      000114 13               [12]  634 	rrc	a
+      000115 FF               [12]  635 	mov	r7,a
+                                    636 ;	main.c:70: DQ = 0;
+                                    637 ;	assignBit
+      000116 C2 B3            [12]  638 	clr	_P3_3
+                                    639 ;	main.c:71: DQ = 1;
+                                    640 ;	assignBit
+      000118 D2 B3            [12]  641 	setb	_P3_3
+                                    642 ;	main.c:74: if(DQ)
+      00011A 30 B3 09         [24]  643 	jnb	_P3_3,00102$
+                                    644 ;	main.c:76: dat |= 0x80;
+      00011D 8F 04            [24]  645 	mov	ar4,r7
+      00011F 7D 00            [12]  646 	mov	r5,#0x00
+      000121 43 04 80         [24]  647 	orl	ar4,#0x80
+      000124 8C 07            [24]  648 	mov	ar7,r4
+      000126                        649 00102$:
+                                    650 ;	main.c:78: delay(4);
+      000126 90 00 04         [24]  651 	mov	dptr,#0x0004
+      000129 C0 07            [24]  652 	push	ar7
+      00012B C0 06            [24]  653 	push	ar6
+      00012D 12r00r00         [24]  654 	lcall	_delay
+      000130 D0 06            [24]  655 	pop	ar6
+      000132 D0 07            [24]  656 	pop	ar7
+                                    657 ;	main.c:79: DQ = 1;
+                                    658 ;	assignBit
+      000134 D2 B3            [12]  659 	setb	_P3_3
+                                    660 ;	main.c:67: for(i=0;i<8;i++)
+      000136 0E               [12]  661 	inc	r6
+      000137 BE 08 00         [24]  662 	cjne	r6,#0x08,00122$
+      00013A                        663 00122$:
+      00013A 40 D6            [24]  664 	jc	00104$
+                                    665 ;	main.c:81: return dat;
+      00013C 8F 82            [24]  666 	mov	dpl,r7
+                                    667 ;	main.c:82: }
+      00013E 22               [24]  668 	ret
                                     669 ;------------------------------------------------------------
-                                    670 ;dat                       Allocated to registers r7 
-                                    671 ;i                         Allocated to registers r6 
-                                    672 ;------------------------------------------------------------
-                                    673 ;	main.c:82: void WriteOneByte(uchar dat)
-                                    674 ;	-----------------------------------------
-                                    675 ;	 function WriteOneByte
+                                    670 ;Allocation info for local variables in function 'WriteOneByte'
+                                    671 ;------------------------------------------------------------
+                                    672 ;dat                       Allocated to registers r7 
+                                    673 ;i                         Allocated to registers r6 
+                                    674 ;------------------------------------------------------------
+                                    675 ;	main.c:83: void WriteOneByte(uchar dat)
                                     676 ;	-----------------------------------------
-      00013C                        677 _WriteOneByte:
-      00013C AF 82            [24]  678 	mov	r7,dpl
-                                    679 ;	main.c:85: for(i=0;i<8;i++)
-      00013E 7E 00            [12]  680 	mov	r6,#0x00
-      000140                        681 00102$:
-                                    682 ;	main.c:87: DQ = 0;
-                                    683 ;	assignBit
-      000140 C2 B3            [12]  684 	clr	_P3_3
-                                    685 ;	main.c:88: DQ = dat & 0x01;
-      000142 EF               [12]  686 	mov	a,r7
-      000143 54 01            [12]  687 	anl	a,#0x01
-      000145 24 FF            [12]  688 	add	a,#0xff
-      000147 92 B3            [24]  689 	mov	_P3_3,c
-                                    690 ;	main.c:89: delay(5);
-      000149 90 00 05         [24]  691 	mov	dptr,#0x0005
-      00014C C0 07            [24]  692 	push	ar7
-      00014E C0 06            [24]  693 	push	ar6
-      000150 12r00r00         [24]  694 	lcall	_delay
-      000153 D0 06            [24]  695 	pop	ar6
-      000155 D0 07            [24]  696 	pop	ar7
-                                    697 ;	main.c:90: DQ = 1;
-                                    698 ;	assignBit
-      000157 D2 B3            [12]  699 	setb	_P3_3
-                                    700 ;	main.c:91: dat >>= 1;
-      000159 EF               [12]  701 	mov	a,r7
-      00015A C3               [12]  702 	clr	c
-      00015B 13               [12]  703 	rrc	a
-      00015C FF               [12]  704 	mov	r7,a
-                                    705 ;	main.c:85: for(i=0;i<8;i++)
-      00015D 0E               [12]  706 	inc	r6
-      00015E BE 08 00         [24]  707 	cjne	r6,#0x08,00111$
-      000161                        708 00111$:
-      000161 40 DD            [24]  709 	jc	00102$
-                                    710 ;	main.c:93: }
-      000163 22               [24]  711 	ret
-                                    712 ;------------------------------------------------------------
-                                    713 ;Allocation info for local variables in function 'ReadTemperature'
+                                    677 ;	 function WriteOneByte
+                                    678 ;	-----------------------------------------
+      00013F                        679 _WriteOneByte:
+      00013F AF 82            [24]  680 	mov	r7,dpl
+                                    681 ;	main.c:86: for(i=0;i<8;i++)
+      000141 7E 00            [12]  682 	mov	r6,#0x00
+      000143                        683 00102$:
+                                    684 ;	main.c:88: DQ = 0;
+                                    685 ;	assignBit
+      000143 C2 B3            [12]  686 	clr	_P3_3
+                                    687 ;	main.c:89: DQ = dat & 0x01;
+      000145 EF               [12]  688 	mov	a,r7
+      000146 54 01            [12]  689 	anl	a,#0x01
+      000148 24 FF            [12]  690 	add	a,#0xff
+      00014A 92 B3            [24]  691 	mov	_P3_3,c
+                                    692 ;	main.c:90: delay(4);//30-60 us is ok
+      00014C 90 00 04         [24]  693 	mov	dptr,#0x0004
+      00014F C0 07            [24]  694 	push	ar7
+      000151 C0 06            [24]  695 	push	ar6
+      000153 12r00r00         [24]  696 	lcall	_delay
+      000156 D0 06            [24]  697 	pop	ar6
+      000158 D0 07            [24]  698 	pop	ar7
+                                    699 ;	main.c:91: DQ = 1;
+                                    700 ;	assignBit
+      00015A D2 B3            [12]  701 	setb	_P3_3
+                                    702 ;	main.c:92: dat >>= 1;
+      00015C EF               [12]  703 	mov	a,r7
+      00015D C3               [12]  704 	clr	c
+      00015E 13               [12]  705 	rrc	a
+      00015F FF               [12]  706 	mov	r7,a
+                                    707 ;	main.c:86: for(i=0;i<8;i++)
+      000160 0E               [12]  708 	inc	r6
+      000161 BE 08 00         [24]  709 	cjne	r6,#0x08,00111$
+      000164                        710 00111$:
+      000164 40 DD            [24]  711 	jc	00102$
+                                    712 ;	main.c:94: }
+      000166 22               [24]  713 	ret
                                     714 ;------------------------------------------------------------
-                                    715 ;	main.c:94: void ReadTemperature()
-                                    716 ;	-----------------------------------------
-                                    717 ;	 function ReadTemperature
+                                    715 ;Allocation info for local variables in function 'ReadTemperature'
+                                    716 ;------------------------------------------------------------
+                                    717 ;	main.c:95: void ReadTemperature()
                                     718 ;	-----------------------------------------
-      000164                        719 _ReadTemperature:
-                                    720 ;	main.c:96: if(Init_DS18B20())
-      000164 12r00rD6         [24]  721 	lcall	_Init_DS18B20
-      000167 E5 82            [12]  722 	mov	a,dpl
-      000169 60 04            [24]  723 	jz	00102$
-                                    724 ;	main.c:97: DS18B20_IS_OK = 0;
-      00016B 75*1B 00         [24]  725 	mov	_DS18B20_IS_OK,#0x00
-      00016E 22               [24]  726 	ret
-      00016F                        727 00102$:
-                                    728 ;	main.c:100: WriteOneByte(0xcc);
-      00016F 75 82 CC         [24]  729 	mov	dpl,#0xcc
-      000172 12r01r3C         [24]  730 	lcall	_WriteOneByte
-                                    731 ;	main.c:101: DisplayDigits();
-      000175 12r00r2E         [24]  732 	lcall	_DisplayDigits
-                                    733 ;	main.c:102: WriteOneByte(0x44);
-      000178 75 82 44         [24]  734 	mov	dpl,#0x44
-      00017B 12r01r3C         [24]  735 	lcall	_WriteOneByte
-                                    736 ;	main.c:103: DisplayDigits();
-      00017E 12r00r2E         [24]  737 	lcall	_DisplayDigits
-                                    738 ;	main.c:106: Init_DS18B20();
-      000181 12r00rD6         [24]  739 	lcall	_Init_DS18B20
-                                    740 ;	main.c:107: WriteOneByte(0xcc);
-      000184 75 82 CC         [24]  741 	mov	dpl,#0xcc
-      000187 12r01r3C         [24]  742 	lcall	_WriteOneByte
-                                    743 ;	main.c:108: WriteOneByte(0xbe);
-      00018A 75 82 BE         [24]  744 	mov	dpl,#0xbe
-      00018D 12r01r3C         [24]  745 	lcall	_WriteOneByte
-                                    746 ;	main.c:109: DisplayDigits();
-      000190 12r00r2E         [24]  747 	lcall	_DisplayDigits
-                                    748 ;	main.c:110: Temp_Value[0] = ReadOneByte();
-      000193 12r00rFF         [24]  749 	lcall	_ReadOneByte
-      000196 E5 82            [12]  750 	mov	a,dpl
-      000198 F5*19            [12]  751 	mov	_Temp_Value,a
-                                    752 ;	main.c:111: Temp_Value[1] = ReadOneByte();
-      00019A 12r00rFF         [24]  753 	lcall	_ReadOneByte
-      00019D E5 82            [12]  754 	mov	a,dpl
-      00019F F5*1A            [12]  755 	mov	(_Temp_Value + 0x0001),a
-                                    756 ;	main.c:112: DisplayDigits();
-      0001A1 12r00r2E         [24]  757 	lcall	_DisplayDigits
-                                    758 ;	main.c:113: DS18B20_IS_OK = 1;
-      0001A4 75*1B 01         [24]  759 	mov	_DS18B20_IS_OK,#0x01
-                                    760 ;	main.c:115: }
-      0001A7 22               [24]  761 	ret
-                                    762 ;------------------------------------------------------------
-                                    763 ;Allocation info for local variables in function 'Temperature_Process'
+                                    719 ;	 function ReadTemperature
+                                    720 ;	-----------------------------------------
+      000167                        721 _ReadTemperature:
+                                    722 ;	main.c:97: if(Init_DS18B20())
+      000167 12r00rD9         [24]  723 	lcall	_Init_DS18B20
+      00016A E5 82            [12]  724 	mov	a,dpl
+      00016C 60 04            [24]  725 	jz	00102$
+                                    726 ;	main.c:98: DS18B20_IS_OK = 0;
+      00016E 75*1B 00         [24]  727 	mov	_DS18B20_IS_OK,#0x00
+      000171 22               [24]  728 	ret
+      000172                        729 00102$:
+                                    730 ;	main.c:101: WriteOneByte(0xcc);
+      000172 75 82 CC         [24]  731 	mov	dpl,#0xcc
+      000175 12r01r3F         [24]  732 	lcall	_WriteOneByte
+                                    733 ;	main.c:102: DisplayDigits();
+      000178 12r00r2E         [24]  734 	lcall	_DisplayDigits
+                                    735 ;	main.c:103: WriteOneByte(0x44);
+      00017B 75 82 44         [24]  736 	mov	dpl,#0x44
+      00017E 12r01r3F         [24]  737 	lcall	_WriteOneByte
+                                    738 ;	main.c:104: DisplayDigits();
+      000181 12r00r2E         [24]  739 	lcall	_DisplayDigits
+                                    740 ;	main.c:107: Init_DS18B20();
+      000184 12r00rD9         [24]  741 	lcall	_Init_DS18B20
+                                    742 ;	main.c:108: WriteOneByte(0xcc);
+      000187 75 82 CC         [24]  743 	mov	dpl,#0xcc
+      00018A 12r01r3F         [24]  744 	lcall	_WriteOneByte
+                                    745 ;	main.c:109: WriteOneByte(0xbe);
+      00018D 75 82 BE         [24]  746 	mov	dpl,#0xbe
+      000190 12r01r3F         [24]  747 	lcall	_WriteOneByte
+                                    748 ;	main.c:110: DisplayDigits();
+      000193 12r00r2E         [24]  749 	lcall	_DisplayDigits
+                                    750 ;	main.c:111: Temp_Value[0] = ReadOneByte();
+      000196 12r01r02         [24]  751 	lcall	_ReadOneByte
+      000199 E5 82            [12]  752 	mov	a,dpl
+      00019B F5*19            [12]  753 	mov	_Temp_Value,a
+                                    754 ;	main.c:112: Temp_Value[1] = ReadOneByte();
+      00019D 12r01r02         [24]  755 	lcall	_ReadOneByte
+      0001A0 E5 82            [12]  756 	mov	a,dpl
+      0001A2 F5*1A            [12]  757 	mov	(_Temp_Value + 0x0001),a
+                                    758 ;	main.c:113: DisplayDigits();
+      0001A4 12r00r2E         [24]  759 	lcall	_DisplayDigits
+                                    760 ;	main.c:114: DS18B20_IS_OK = 1;
+      0001A7 75*1B 01         [24]  761 	mov	_DS18B20_IS_OK,#0x01
+                                    762 ;	main.c:116: }
+      0001AA 22               [24]  763 	ret
                                     764 ;------------------------------------------------------------
-                                    765 ;Temper                    Allocated to registers r4 r5 
-                                    766 ;tp                        Allocated to registers r4 r5 r6 r7 
-                                    767 ;------------------------------------------------------------
-                                    768 ;	main.c:116: void Temperature_Process() //convert temperature from hex to decimal, then make it diplayable.
-                                    769 ;	-----------------------------------------
-                                    770 ;	 function Temperature_Process
+                                    765 ;Allocation info for local variables in function 'Temperature_Process'
+                                    766 ;------------------------------------------------------------
+                                    767 ;Temper                    Allocated to registers r4 r5 
+                                    768 ;tp                        Allocated to registers r4 r5 r6 r7 
+                                    769 ;------------------------------------------------------------
+                                    770 ;	main.c:117: void Temperature_Process() //convert temperature from hex to decimal, then make it diplayable.
                                     771 ;	-----------------------------------------
-      0001A8                        772 _Temperature_Process:
-                                    773 ;	main.c:118: int Temper = Temp_Value[1];
-                                    774 ;	main.c:119: Temper <<= 8;
-      0001A8 AF*1A            [24]  775 	mov	r7,(_Temp_Value + 0x0001)
-      0001AA 7E 00            [12]  776 	mov	r6,#0x00
-                                    777 ;	main.c:120: Temper |= Temp_Value[0];
-      0001AC AC*19            [24]  778 	mov	r4,_Temp_Value
-      0001AE 7D 00            [12]  779 	mov	r5,#0x00
-      0001B0 EC               [12]  780 	mov	a,r4
-      0001B1 42 06            [12]  781 	orl	ar6,a
-      0001B3 ED               [12]  782 	mov	a,r5
-      0001B4 42 07            [12]  783 	orl	ar7,a
-                                    784 ;	main.c:121: DisplayDigits();
-      0001B6 C0 07            [24]  785 	push	ar7
-      0001B8 C0 06            [24]  786 	push	ar6
-      0001BA 12r00r2E         [24]  787 	lcall	_DisplayDigits
-      0001BD D0 06            [24]  788 	pop	ar6
-      0001BF D0 07            [24]  789 	pop	ar7
-                                    790 ;	main.c:123: if(Temper<0)
-      0001C1 EF               [12]  791 	mov	a,r7
-      0001C2 30 E7 18         [24]  792 	jnb	acc.7,00102$
-                                    793 ;	main.c:125: Display[0] = 0x40;
-      0001C5 75*10 40         [24]  794 	mov	_Display,#0x40
-                                    795 ;	main.c:126: Temper -= 1;
-      0001C8 EE               [12]  796 	mov	a,r6
-      0001C9 24 FF            [12]  797 	add	a,#0xff
-      0001CB FC               [12]  798 	mov	r4,a
-      0001CC EF               [12]  799 	mov	a,r7
-      0001CD 34 FF            [12]  800 	addc	a,#0xff
-                                    801 ;	main.c:127: Temper = !Temper;
-      0001CF 4C               [12]  802 	orl	a,r4
-      0001D0 B4 01 00         [24]  803 	cjne	a,#0x01,00112$
-      0001D3                        804 00112$:
-      0001D3 E4               [12]  805 	clr	a
-      0001D4 33               [12]  806 	rlc	a
-      0001D5 FD               [12]  807 	mov	r5,a
-      0001D6 FE               [12]  808 	mov	r6,a
-      0001D7 33               [12]  809 	rlc	a
-      0001D8 95 E0            [12]  810 	subb	a,acc
-      0001DA FF               [12]  811 	mov	r7,a
-      0001DB 80 03            [24]  812 	sjmp	00103$
-      0001DD                        813 00102$:
-                                    814 ;	main.c:131: Display[0] = 0x00;
-      0001DD 75*10 00         [24]  815 	mov	_Display,#0x00
-      0001E0                        816 00103$:
-                                    817 ;	main.c:133: tp = Temper;
-      0001E0 8E 82            [24]  818 	mov	dpl,r6
-      0001E2 8F 83            [24]  819 	mov	dph,r7
-      0001E4 12r00r00         [24]  820 	lcall	___sint2fs
-      0001E7 AC 82            [24]  821 	mov	r4,dpl
-      0001E9 AD 83            [24]  822 	mov	r5,dph
-      0001EB AE F0            [24]  823 	mov	r6,b
-      0001ED FF               [12]  824 	mov	r7,a
-                                    825 ;	main.c:134: DisplayDigits();
-      0001EE C0 07            [24]  826 	push	ar7
-      0001F0 C0 06            [24]  827 	push	ar6
-      0001F2 C0 05            [24]  828 	push	ar5
-      0001F4 C0 04            [24]  829 	push	ar4
-      0001F6 12r00r2E         [24]  830 	lcall	_DisplayDigits
-      0001F9 D0 04            [24]  831 	pop	ar4
-      0001FB D0 05            [24]  832 	pop	ar5
-      0001FD D0 06            [24]  833 	pop	ar6
-      0001FF D0 07            [24]  834 	pop	ar7
-                                    835 ;	main.c:135: Temper = tp * 0.0625 * 100 + 0.5;
-      000201 C0 04            [24]  836 	push	ar4
-      000203 C0 05            [24]  837 	push	ar5
-      000205 C0 06            [24]  838 	push	ar6
-      000207 C0 07            [24]  839 	push	ar7
-      000209 90 00 00         [24]  840 	mov	dptr,#0x0000
-      00020C 75 F0 C8         [24]  841 	mov	b,#0xc8
-      00020F 74 40            [12]  842 	mov	a,#0x40
-      000211 12r00r00         [24]  843 	lcall	___fsmul
-      000214 AC 82            [24]  844 	mov	r4,dpl
-      000216 AD 83            [24]  845 	mov	r5,dph
-      000218 AE F0            [24]  846 	mov	r6,b
-      00021A FF               [12]  847 	mov	r7,a
-      00021B E5 81            [12]  848 	mov	a,sp
-      00021D 24 FC            [12]  849 	add	a,#0xfc
-      00021F F5 81            [12]  850 	mov	sp,a
-      000221 E4               [12]  851 	clr	a
-      000222 C0 E0            [24]  852 	push	acc
-      000224 C0 E0            [24]  853 	push	acc
-      000226 C0 E0            [24]  854 	push	acc
-      000228 74 3F            [12]  855 	mov	a,#0x3f
-      00022A C0 E0            [24]  856 	push	acc
-      00022C 8C 82            [24]  857 	mov	dpl,r4
-      00022E 8D 83            [24]  858 	mov	dph,r5
-      000230 8E F0            [24]  859 	mov	b,r6
-      000232 EF               [12]  860 	mov	a,r7
-      000233 12r00r00         [24]  861 	lcall	___fsadd
-      000236 AC 82            [24]  862 	mov	r4,dpl
-      000238 AD 83            [24]  863 	mov	r5,dph
-      00023A AE F0            [24]  864 	mov	r6,b
-      00023C FF               [12]  865 	mov	r7,a
-      00023D E5 81            [12]  866 	mov	a,sp
-      00023F 24 FC            [12]  867 	add	a,#0xfc
-      000241 F5 81            [12]  868 	mov	sp,a
-      000243 8C 82            [24]  869 	mov	dpl,r4
-      000245 8D 83            [24]  870 	mov	dph,r5
-      000247 8E F0            [24]  871 	mov	b,r6
-      000249 EF               [12]  872 	mov	a,r7
-      00024A 12r00r00         [24]  873 	lcall	___fs2sint
-      00024D AE 82            [24]  874 	mov	r6,dpl
-      00024F AF 83            [24]  875 	mov	r7,dph
-                                    876 ;	main.c:136: DisplayDigits();
-      000251 C0 07            [24]  877 	push	ar7
-      000253 C0 06            [24]  878 	push	ar6
-      000255 12r00r2E         [24]  879 	lcall	_DisplayDigits
-      000258 D0 06            [24]  880 	pop	ar6
-      00025A D0 07            [24]  881 	pop	ar7
-                                    882 ;	main.c:137: Display[1] = smgduan[Temper/10000];
-      00025C 75*00 10         [24]  883 	mov	__divsint_PARM_2,#0x10
-      00025F 75*01 27         [24]  884 	mov	(__divsint_PARM_2 + 1),#0x27
-      000262 8E 82            [24]  885 	mov	dpl,r6
-      000264 8F 83            [24]  886 	mov	dph,r7
-      000266 C0 07            [24]  887 	push	ar7
-      000268 C0 06            [24]  888 	push	ar6
-      00026A 12r00r00         [24]  889 	lcall	__divsint
-      00026D AC 82            [24]  890 	mov	r4,dpl
-      00026F D0 06            [24]  891 	pop	ar6
-      000271 D0 07            [24]  892 	pop	ar7
-      000273 EC               [12]  893 	mov	a,r4
-      000274 24r00            [12]  894 	add	a,#_smgduan
-      000276 F9               [12]  895 	mov	r1,a
-      000277 87 05            [24]  896 	mov	ar5,@r1
-      000279 8D*11            [24]  897 	mov	(_Display + 0x0001),r5
-                                    898 ;	main.c:138: DisplayDigits();
-      00027B C0 07            [24]  899 	push	ar7
-      00027D C0 06            [24]  900 	push	ar6
-      00027F 12r00r2E         [24]  901 	lcall	_DisplayDigits
-      000282 D0 06            [24]  902 	pop	ar6
-      000284 D0 07            [24]  903 	pop	ar7
-                                    904 ;	main.c:139: Display[2] = smgduan[Temper%10000/1000];
-      000286 75*00 10         [24]  905 	mov	__modsint_PARM_2,#0x10
-      000289 75*01 27         [24]  906 	mov	(__modsint_PARM_2 + 1),#0x27
-      00028C 8E 82            [24]  907 	mov	dpl,r6
-      00028E 8F 83            [24]  908 	mov	dph,r7
-      000290 C0 07            [24]  909 	push	ar7
-      000292 C0 06            [24]  910 	push	ar6
-      000294 12r00r00         [24]  911 	lcall	__modsint
-      000297 75*00 E8         [24]  912 	mov	__divsint_PARM_2,#0xe8
-      00029A 75*01 03         [24]  913 	mov	(__divsint_PARM_2 + 1),#0x03
-      00029D 12r00r00         [24]  914 	lcall	__divsint
-      0002A0 AC 82            [24]  915 	mov	r4,dpl
-      0002A2 D0 06            [24]  916 	pop	ar6
-      0002A4 D0 07            [24]  917 	pop	ar7
-      0002A6 EC               [12]  918 	mov	a,r4
-      0002A7 24r00            [12]  919 	add	a,#_smgduan
-      0002A9 F9               [12]  920 	mov	r1,a
-      0002AA 87 05            [24]  921 	mov	ar5,@r1
-      0002AC 8D*12            [24]  922 	mov	(_Display + 0x0002),r5
-                                    923 ;	main.c:140: DisplayDigits();
-      0002AE C0 07            [24]  924 	push	ar7
-      0002B0 C0 06            [24]  925 	push	ar6
-      0002B2 12r00r2E         [24]  926 	lcall	_DisplayDigits
-      0002B5 D0 06            [24]  927 	pop	ar6
-      0002B7 D0 07            [24]  928 	pop	ar7
-                                    929 ;	main.c:141: Display[3] = smgduan[Temper%1000/100]|0x80;
-      0002B9 75*00 E8         [24]  930 	mov	__modsint_PARM_2,#0xe8
-      0002BC 75*01 03         [24]  931 	mov	(__modsint_PARM_2 + 1),#0x03
-      0002BF 8E 82            [24]  932 	mov	dpl,r6
-      0002C1 8F 83            [24]  933 	mov	dph,r7
-      0002C3 C0 07            [24]  934 	push	ar7
-      0002C5 C0 06            [24]  935 	push	ar6
-      0002C7 12r00r00         [24]  936 	lcall	__modsint
-      0002CA 75*00 64         [24]  937 	mov	__divsint_PARM_2,#0x64
-      0002CD 75*01 00         [24]  938 	mov	(__divsint_PARM_2 + 1),#0x00
-      0002D0 12r00r00         [24]  939 	lcall	__divsint
-      0002D3 AC 82            [24]  940 	mov	r4,dpl
-      0002D5 D0 06            [24]  941 	pop	ar6
-      0002D7 D0 07            [24]  942 	pop	ar7
-      0002D9 EC               [12]  943 	mov	a,r4
-      0002DA 24r00            [12]  944 	add	a,#_smgduan
-      0002DC F9               [12]  945 	mov	r1,a
-      0002DD 87 05            [24]  946 	mov	ar5,@r1
-      0002DF 43 05 80         [24]  947 	orl	ar5,#0x80
-      0002E2 8D*13            [24]  948 	mov	(_Display + 0x0003),r5
-                                    949 ;	main.c:142: DisplayDigits();
-      0002E4 C0 07            [24]  950 	push	ar7
-      0002E6 C0 06            [24]  951 	push	ar6
-      0002E8 12r00r2E         [24]  952 	lcall	_DisplayDigits
-      0002EB D0 06            [24]  953 	pop	ar6
-      0002ED D0 07            [24]  954 	pop	ar7
-                                    955 ;	main.c:143: Display[4] = smgduan[Temper%100/10];
-      0002EF 75*00 64         [24]  956 	mov	__modsint_PARM_2,#0x64
-      0002F2 75*01 00         [24]  957 	mov	(__modsint_PARM_2 + 1),#0x00
-      0002F5 8E 82            [24]  958 	mov	dpl,r6
-      0002F7 8F 83            [24]  959 	mov	dph,r7
-      0002F9 C0 07            [24]  960 	push	ar7
-      0002FB C0 06            [24]  961 	push	ar6
-      0002FD 12r00r00         [24]  962 	lcall	__modsint
-      000300 75*00 0A         [24]  963 	mov	__divsint_PARM_2,#0x0a
-      000303 75*01 00         [24]  964 	mov	(__divsint_PARM_2 + 1),#0x00
-      000306 12r00r00         [24]  965 	lcall	__divsint
-      000309 AC 82            [24]  966 	mov	r4,dpl
-      00030B D0 06            [24]  967 	pop	ar6
-      00030D D0 07            [24]  968 	pop	ar7
-      00030F EC               [12]  969 	mov	a,r4
-      000310 24r00            [12]  970 	add	a,#_smgduan
-      000312 F9               [12]  971 	mov	r1,a
-      000313 87 05            [24]  972 	mov	ar5,@r1
-      000315 8D*14            [24]  973 	mov	(_Display + 0x0004),r5
-                                    974 ;	main.c:144: DisplayDigits();
-      000317 C0 07            [24]  975 	push	ar7
-      000319 C0 06            [24]  976 	push	ar6
-      00031B 12r00r2E         [24]  977 	lcall	_DisplayDigits
-      00031E D0 06            [24]  978 	pop	ar6
-      000320 D0 07            [24]  979 	pop	ar7
-                                    980 ;	main.c:145: Display[5] = smgduan[Temper%10];
-      000322 75*00 0A         [24]  981 	mov	__modsint_PARM_2,#0x0a
-      000325 75*01 00         [24]  982 	mov	(__modsint_PARM_2 + 1),#0x00
-      000328 8E 82            [24]  983 	mov	dpl,r6
-      00032A 8F 83            [24]  984 	mov	dph,r7
-      00032C 12r00r00         [24]  985 	lcall	__modsint
-      00032F E5 82            [12]  986 	mov	a,dpl
-      000331 24r00            [12]  987 	add	a,#_smgduan
-      000333 F9               [12]  988 	mov	r1,a
-      000334 87 07            [24]  989 	mov	ar7,@r1
-      000336 8F*15            [24]  990 	mov	(_Display + 0x0005),r7
-                                    991 ;	main.c:146: }
-      000338 22               [24]  992 	ret
-                                    993 ;------------------------------------------------------------
-                                    994 ;Allocation info for local variables in function 'main'
+                                    772 ;	 function Temperature_Process
+                                    773 ;	-----------------------------------------
+      0001AB                        774 _Temperature_Process:
+                                    775 ;	main.c:119: int Temper = Temp_Value[1];
+                                    776 ;	main.c:120: Temper <<= 8;
+      0001AB AF*1A            [24]  777 	mov	r7,(_Temp_Value + 0x0001)
+      0001AD 7E 00            [12]  778 	mov	r6,#0x00
+                                    779 ;	main.c:121: Temper |= Temp_Value[0];
+      0001AF AC*19            [24]  780 	mov	r4,_Temp_Value
+      0001B1 7D 00            [12]  781 	mov	r5,#0x00
+      0001B3 EC               [12]  782 	mov	a,r4
+      0001B4 42 06            [12]  783 	orl	ar6,a
+      0001B6 ED               [12]  784 	mov	a,r5
+      0001B7 42 07            [12]  785 	orl	ar7,a
+                                    786 ;	main.c:122: DisplayDigits();
+      0001B9 C0 07            [24]  787 	push	ar7
+      0001BB C0 06            [24]  788 	push	ar6
+      0001BD 12r00r2E         [24]  789 	lcall	_DisplayDigits
+      0001C0 D0 06            [24]  790 	pop	ar6
+      0001C2 D0 07            [24]  791 	pop	ar7
+                                    792 ;	main.c:124: if(Temper<0)
+      0001C4 EF               [12]  793 	mov	a,r7
+      0001C5 30 E7 18         [24]  794 	jnb	acc.7,00102$
+                                    795 ;	main.c:126: Display[0] = 0x40;
+      0001C8 75*10 40         [24]  796 	mov	_Display,#0x40
+                                    797 ;	main.c:127: Temper -= 1;
+      0001CB EE               [12]  798 	mov	a,r6
+      0001CC 24 FF            [12]  799 	add	a,#0xff
+      0001CE FC               [12]  800 	mov	r4,a
+      0001CF EF               [12]  801 	mov	a,r7
+      0001D0 34 FF            [12]  802 	addc	a,#0xff
+                                    803 ;	main.c:128: Temper = !Temper;
+      0001D2 4C               [12]  804 	orl	a,r4
+      0001D3 B4 01 00         [24]  805 	cjne	a,#0x01,00112$
+      0001D6                        806 00112$:
+      0001D6 E4               [12]  807 	clr	a
+      0001D7 33               [12]  808 	rlc	a
+      0001D8 FD               [12]  809 	mov	r5,a
+      0001D9 FE               [12]  810 	mov	r6,a
+      0001DA 33               [12]  811 	rlc	a
+      0001DB 95 E0            [12]  812 	subb	a,acc
+      0001DD FF               [12]  813 	mov	r7,a
+      0001DE 80 03            [24]  814 	sjmp	00103$
+      0001E0                        815 00102$:
+                                    816 ;	main.c:132: Display[0] = 0x00;
+      0001E0 75*10 00         [24]  817 	mov	_Display,#0x00
+      0001E3                        818 00103$:
+                                    819 ;	main.c:134: tp = Temper;
+      0001E3 8E 82            [24]  820 	mov	dpl,r6
+      0001E5 8F 83            [24]  821 	mov	dph,r7
+      0001E7 12r00r00         [24]  822 	lcall	___sint2fs
+      0001EA AC 82            [24]  823 	mov	r4,dpl
+      0001EC AD 83            [24]  824 	mov	r5,dph
+      0001EE AE F0            [24]  825 	mov	r6,b
+      0001F0 FF               [12]  826 	mov	r7,a
+                                    827 ;	main.c:135: DisplayDigits();
+      0001F1 C0 07            [24]  828 	push	ar7
+      0001F3 C0 06            [24]  829 	push	ar6
+      0001F5 C0 05            [24]  830 	push	ar5
+      0001F7 C0 04            [24]  831 	push	ar4
+      0001F9 12r00r2E         [24]  832 	lcall	_DisplayDigits
+      0001FC D0 04            [24]  833 	pop	ar4
+      0001FE D0 05            [24]  834 	pop	ar5
+      000200 D0 06            [24]  835 	pop	ar6
+      000202 D0 07            [24]  836 	pop	ar7
+                                    837 ;	main.c:136: Temper = tp * 0.0625 * 100 + 0.5;
+      000204 C0 04            [24]  838 	push	ar4
+      000206 C0 05            [24]  839 	push	ar5
+      000208 C0 06            [24]  840 	push	ar6
+      00020A C0 07            [24]  841 	push	ar7
+      00020C 90 00 00         [24]  842 	mov	dptr,#0x0000
+      00020F 75 F0 C8         [24]  843 	mov	b,#0xc8
+      000212 74 40            [12]  844 	mov	a,#0x40
+      000214 12r00r00         [24]  845 	lcall	___fsmul
+      000217 AC 82            [24]  846 	mov	r4,dpl
+      000219 AD 83            [24]  847 	mov	r5,dph
+      00021B AE F0            [24]  848 	mov	r6,b
+      00021D FF               [12]  849 	mov	r7,a
+      00021E E5 81            [12]  850 	mov	a,sp
+      000220 24 FC            [12]  851 	add	a,#0xfc
+      000222 F5 81            [12]  852 	mov	sp,a
+      000224 E4               [12]  853 	clr	a
+      000225 C0 E0            [24]  854 	push	acc
+      000227 C0 E0            [24]  855 	push	acc
+      000229 C0 E0            [24]  856 	push	acc
+      00022B 74 3F            [12]  857 	mov	a,#0x3f
+      00022D C0 E0            [24]  858 	push	acc
+      00022F 8C 82            [24]  859 	mov	dpl,r4
+      000231 8D 83            [24]  860 	mov	dph,r5
+      000233 8E F0            [24]  861 	mov	b,r6
+      000235 EF               [12]  862 	mov	a,r7
+      000236 12r00r00         [24]  863 	lcall	___fsadd
+      000239 AC 82            [24]  864 	mov	r4,dpl
+      00023B AD 83            [24]  865 	mov	r5,dph
+      00023D AE F0            [24]  866 	mov	r6,b
+      00023F FF               [12]  867 	mov	r7,a
+      000240 E5 81            [12]  868 	mov	a,sp
+      000242 24 FC            [12]  869 	add	a,#0xfc
+      000244 F5 81            [12]  870 	mov	sp,a
+      000246 8C 82            [24]  871 	mov	dpl,r4
+      000248 8D 83            [24]  872 	mov	dph,r5
+      00024A 8E F0            [24]  873 	mov	b,r6
+      00024C EF               [12]  874 	mov	a,r7
+      00024D 12r00r00         [24]  875 	lcall	___fs2sint
+      000250 AE 82            [24]  876 	mov	r6,dpl
+      000252 AF 83            [24]  877 	mov	r7,dph
+                                    878 ;	main.c:137: DisplayDigits();
+      000254 C0 07            [24]  879 	push	ar7
+      000256 C0 06            [24]  880 	push	ar6
+      000258 12r00r2E         [24]  881 	lcall	_DisplayDigits
+      00025B D0 06            [24]  882 	pop	ar6
+      00025D D0 07            [24]  883 	pop	ar7
+                                    884 ;	main.c:138: Display[1] = smgduan[Temper/10000];
+      00025F 75*00 10         [24]  885 	mov	__divsint_PARM_2,#0x10
+      000262 75*01 27         [24]  886 	mov	(__divsint_PARM_2 + 1),#0x27
+      000265 8E 82            [24]  887 	mov	dpl,r6
+      000267 8F 83            [24]  888 	mov	dph,r7
+      000269 C0 07            [24]  889 	push	ar7
+      00026B C0 06            [24]  890 	push	ar6
+      00026D 12r00r00         [24]  891 	lcall	__divsint
+      000270 AC 82            [24]  892 	mov	r4,dpl
+      000272 D0 06            [24]  893 	pop	ar6
+      000274 D0 07            [24]  894 	pop	ar7
+      000276 EC               [12]  895 	mov	a,r4
+      000277 24r00            [12]  896 	add	a,#_smgduan
+      000279 F9               [12]  897 	mov	r1,a
+      00027A 87 05            [24]  898 	mov	ar5,@r1
+      00027C 8D*11            [24]  899 	mov	(_Display + 0x0001),r5
+                                    900 ;	main.c:139: DisplayDigits();
+      00027E C0 07            [24]  901 	push	ar7
+      000280 C0 06            [24]  902 	push	ar6
+      000282 12r00r2E         [24]  903 	lcall	_DisplayDigits
+      000285 D0 06            [24]  904 	pop	ar6
+      000287 D0 07            [24]  905 	pop	ar7
+                                    906 ;	main.c:140: Display[2] = smgduan[Temper%10000/1000];
+      000289 75*00 10         [24]  907 	mov	__modsint_PARM_2,#0x10
+      00028C 75*01 27         [24]  908 	mov	(__modsint_PARM_2 + 1),#0x27
+      00028F 8E 82            [24]  909 	mov	dpl,r6
+      000291 8F 83            [24]  910 	mov	dph,r7
+      000293 C0 07            [24]  911 	push	ar7
+      000295 C0 06            [24]  912 	push	ar6
+      000297 12r00r00         [24]  913 	lcall	__modsint
+      00029A 75*00 E8         [24]  914 	mov	__divsint_PARM_2,#0xe8
+      00029D 75*01 03         [24]  915 	mov	(__divsint_PARM_2 + 1),#0x03
+      0002A0 12r00r00         [24]  916 	lcall	__divsint
+      0002A3 AC 82            [24]  917 	mov	r4,dpl
+      0002A5 D0 06            [24]  918 	pop	ar6
+      0002A7 D0 07            [24]  919 	pop	ar7
+      0002A9 EC               [12]  920 	mov	a,r4
+      0002AA 24r00            [12]  921 	add	a,#_smgduan
+      0002AC F9               [12]  922 	mov	r1,a
+      0002AD 87 05            [24]  923 	mov	ar5,@r1
+      0002AF 8D*12            [24]  924 	mov	(_Display + 0x0002),r5
+                                    925 ;	main.c:141: DisplayDigits();
+      0002B1 C0 07            [24]  926 	push	ar7
+      0002B3 C0 06            [24]  927 	push	ar6
+      0002B5 12r00r2E         [24]  928 	lcall	_DisplayDigits
+      0002B8 D0 06            [24]  929 	pop	ar6
+      0002BA D0 07            [24]  930 	pop	ar7
+                                    931 ;	main.c:142: Display[3] = smgduan[Temper%1000/100]|0x80;
+      0002BC 75*00 E8         [24]  932 	mov	__modsint_PARM_2,#0xe8
+      0002BF 75*01 03         [24]  933 	mov	(__modsint_PARM_2 + 1),#0x03
+      0002C2 8E 82            [24]  934 	mov	dpl,r6
+      0002C4 8F 83            [24]  935 	mov	dph,r7
+      0002C6 C0 07            [24]  936 	push	ar7
+      0002C8 C0 06            [24]  937 	push	ar6
+      0002CA 12r00r00         [24]  938 	lcall	__modsint
+      0002CD 75*00 64         [24]  939 	mov	__divsint_PARM_2,#0x64
+      0002D0 75*01 00         [24]  940 	mov	(__divsint_PARM_2 + 1),#0x00
+      0002D3 12r00r00         [24]  941 	lcall	__divsint
+      0002D6 AC 82            [24]  942 	mov	r4,dpl
+      0002D8 D0 06            [24]  943 	pop	ar6
+      0002DA D0 07            [24]  944 	pop	ar7
+      0002DC EC               [12]  945 	mov	a,r4
+      0002DD 24r00            [12]  946 	add	a,#_smgduan
+      0002DF F9               [12]  947 	mov	r1,a
+      0002E0 87 05            [24]  948 	mov	ar5,@r1
+      0002E2 43 05 80         [24]  949 	orl	ar5,#0x80
+      0002E5 8D*13            [24]  950 	mov	(_Display + 0x0003),r5
+                                    951 ;	main.c:143: DisplayDigits();
+      0002E7 C0 07            [24]  952 	push	ar7
+      0002E9 C0 06            [24]  953 	push	ar6
+      0002EB 12r00r2E         [24]  954 	lcall	_DisplayDigits
+      0002EE D0 06            [24]  955 	pop	ar6
+      0002F0 D0 07            [24]  956 	pop	ar7
+                                    957 ;	main.c:144: Display[4] = smgduan[Temper%100/10];
+      0002F2 75*00 64         [24]  958 	mov	__modsint_PARM_2,#0x64
+      0002F5 75*01 00         [24]  959 	mov	(__modsint_PARM_2 + 1),#0x00
+      0002F8 8E 82            [24]  960 	mov	dpl,r6
+      0002FA 8F 83            [24]  961 	mov	dph,r7
+      0002FC C0 07            [24]  962 	push	ar7
+      0002FE C0 06            [24]  963 	push	ar6
+      000300 12r00r00         [24]  964 	lcall	__modsint
+      000303 75*00 0A         [24]  965 	mov	__divsint_PARM_2,#0x0a
+      000306 75*01 00         [24]  966 	mov	(__divsint_PARM_2 + 1),#0x00
+      000309 12r00r00         [24]  967 	lcall	__divsint
+      00030C AC 82            [24]  968 	mov	r4,dpl
+      00030E D0 06            [24]  969 	pop	ar6
+      000310 D0 07            [24]  970 	pop	ar7
+      000312 EC               [12]  971 	mov	a,r4
+      000313 24r00            [12]  972 	add	a,#_smgduan
+      000315 F9               [12]  973 	mov	r1,a
+      000316 87 05            [24]  974 	mov	ar5,@r1
+      000318 8D*14            [24]  975 	mov	(_Display + 0x0004),r5
+                                    976 ;	main.c:145: DisplayDigits();
+      00031A C0 07            [24]  977 	push	ar7
+      00031C C0 06            [24]  978 	push	ar6
+      00031E 12r00r2E         [24]  979 	lcall	_DisplayDigits
+      000321 D0 06            [24]  980 	pop	ar6
+      000323 D0 07            [24]  981 	pop	ar7
+                                    982 ;	main.c:146: Display[5] = smgduan[Temper%10];
+      000325 75*00 0A         [24]  983 	mov	__modsint_PARM_2,#0x0a
+      000328 75*01 00         [24]  984 	mov	(__modsint_PARM_2 + 1),#0x00
+      00032B 8E 82            [24]  985 	mov	dpl,r6
+      00032D 8F 83            [24]  986 	mov	dph,r7
+      00032F 12r00r00         [24]  987 	lcall	__modsint
+      000332 E5 82            [12]  988 	mov	a,dpl
+      000334 24r00            [12]  989 	add	a,#_smgduan
+      000336 F9               [12]  990 	mov	r1,a
+      000337 87 07            [24]  991 	mov	ar7,@r1
+      000339 8F*15            [24]  992 	mov	(_Display + 0x0005),r7
+                                    993 ;	main.c:147: }
+      00033B 22               [24]  994 	ret
                                     995 ;------------------------------------------------------------
-                                    996 ;i                         Allocated to registers r7 
+                                    996 ;Allocation info for local variables in function 'main'
                                     997 ;------------------------------------------------------------
-                                    998 ;	main.c:148: void main()
-                                    999 ;	-----------------------------------------
-                                   1000 ;	 function main
+                                    998 ;i                         Allocated to registers r7 
+                                    999 ;------------------------------------------------------------
+                                   1000 ;	main.c:149: void main()
                                    1001 ;	-----------------------------------------
-      000339                       1002 _main:
-                                   1003 ;	main.c:150: Init_DS18B20();
-      000339 12r00rD6         [24] 1004 	lcall	_Init_DS18B20
-                                   1005 ;	main.c:151: delay(50000);
-      00033C 90 C3 50         [24] 1006 	mov	dptr,#0xc350
-      00033F 12r00r00         [24] 1007 	lcall	_delay
-                                   1008 ;	main.c:152: delay(25000);
-      000342 90 61 A8         [24] 1009 	mov	dptr,#0x61a8
-      000345 12r00r00         [24] 1010 	lcall	_delay
-                                   1011 ;	main.c:153: while(1)
-      000348                       1012 00105$:
-                                   1013 ;	main.c:155: ReadTemperature();
-      000348 12r01r64         [24] 1014 	lcall	_ReadTemperature
-                                   1015 ;	main.c:156: Temperature_Process();
-      00034B 12r01rA8         [24] 1016 	lcall	_Temperature_Process
-                                   1017 ;	main.c:158: while(i--)
-      00034E 7F 0A            [12] 1018 	mov	r7,#0x0a
-      000350                       1019 00101$:
-      000350 8F 06            [24] 1020 	mov	ar6,r7
-      000352 1F               [12] 1021 	dec	r7
-      000353 EE               [12] 1022 	mov	a,r6
-      000354 60 09            [24] 1023 	jz	00103$
-                                   1024 ;	main.c:160: DisplayDigits();
-      000356 C0 07            [24] 1025 	push	ar7
-      000358 12r00r2E         [24] 1026 	lcall	_DisplayDigits
-      00035B D0 07            [24] 1027 	pop	ar7
-      00035D 80 F1            [24] 1028 	sjmp	00101$
-      00035F                       1029 00103$:
-                                   1030 ;	main.c:162: DelayXus(10);
-      00035F 90 00 0A         [24] 1031 	mov	dptr,#0x000a
-      000362 12r00r12         [24] 1032 	lcall	_DelayXus
-                                   1033 ;	main.c:164: }
-      000365 80 E1            [24] 1034 	sjmp	00105$
-                                   1035 	.area CSEG    (CODE)
-                                   1036 	.area CONST   (CODE)
-                                   1037 	.area XINIT   (CODE)
-                                   1038 	.area CABS    (ABS,CODE)
+                                   1002 ;	 function main
+                                   1003 ;	-----------------------------------------
+      00033C                       1004 _main:
+                                   1005 ;	main.c:151: Init_DS18B20();
+      00033C 12r00rD9         [24] 1006 	lcall	_Init_DS18B20
+                                   1007 ;	main.c:152: delay(50000);
+      00033F 90 C3 50         [24] 1008 	mov	dptr,#0xc350
+      000342 12r00r00         [24] 1009 	lcall	_delay
+                                   1010 ;	main.c:153: delay(25000);
+      000345 90 61 A8         [24] 1011 	mov	dptr,#0x61a8
+      000348 12r00r00         [24] 1012 	lcall	_delay
+                                   1013 ;	main.c:154: while(1)
+      00034B                       1014 00105$:
+                                   1015 ;	main.c:156: ReadTemperature();
+      00034B 12r01r67         [24] 1016 	lcall	_ReadTemperature
+                                   1017 ;	main.c:157: Temperature_Process();
+      00034E 12r01rAB         [24] 1018 	lcall	_Temperature_Process
+                                   1019 ;	main.c:159: while(i--)
+      000351 7F 0A            [12] 1020 	mov	r7,#0x0a
+      000353                       1021 00101$:
+      000353 8F 06            [24] 1022 	mov	ar6,r7
+      000355 1F               [12] 1023 	dec	r7
+      000356 EE               [12] 1024 	mov	a,r6
+      000357 60 09            [24] 1025 	jz	00103$
+                                   1026 ;	main.c:161: DisplayDigits();
+      000359 C0 07            [24] 1027 	push	ar7
+      00035B 12r00r2E         [24] 1028 	lcall	_DisplayDigits
+      00035E D0 07            [24] 1029 	pop	ar7
+      000360 80 F1            [24] 1030 	sjmp	00101$
+      000362                       1031 00103$:
+                                   1032 ;	main.c:163: DelayXus(10);
+      000362 90 00 0A         [24] 1033 	mov	dptr,#0x000a
+      000365 12r00r12         [24] 1034 	lcall	_DelayXus
+                                   1035 ;	main.c:165: }
+      000368 80 E1            [24] 1036 	sjmp	00105$
+                                   1037 	.area CSEG    (CODE)
+                                   1038 	.area CONST   (CODE)
+                                   1039 	.area XINIT   (CODE)
+                                   1040 	.area CABS    (ABS,CODE)

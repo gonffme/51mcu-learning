@@ -73,13 +73,18 @@ void StartModule()
 	Trig = 0;	
 }
 
+#define SPEED 0xff  //baudrate
+		    //for f=12.000MHz  1200:0xe6(smod=0)/0xcc(smod=1) 2400:0xf3/0xe6 4800: /0xf3
+	 	    //for f=11.0592MHz 1200:0xe8/0xd0 2400:0xf4/0xe8 4800:0xfa/0xf4 9600:0xfd/0xfa
+		    //19200: /0xfd 57600: /0xff
 void InitTimer()
 {
 	TMOD = 0x21;
-	//PCON = 0x80;
+	PCON |= 0x80;
+	//PCON &= 0x7f;
 	SCON = 0x50;
-	TH1 = 0xf3;
-	TL1 = 0xf3;
+	TH1 = SPEED;
+	TL1 = SPEED;
 	TH0 = 0;
 	TL0 = 0;
 	TR1 = 1;
@@ -87,9 +92,34 @@ void InitTimer()
 	ES = 1;
 }
 
+uint min(uint * s)
+{
+	uint temp=*s;
+	uchar i;
+	for(i=0;i<3;i++)
+	{
+		s+=1;
+		if(temp>*s)temp=*s;
+	}
+	return temp;
+}
+
+uint max(uint * s)
+{
+	uint temp=*s;
+	uchar i;
+	for(i=0;i<3;i++)
+	{
+		s+=1;
+		if(temp<*s)temp=*s;
+	}
+	return temp;
+}
+
 uint time;
 uint s;
 uint ss[4] = {0, 0, 0, 0};
+uint mins,maxs;
 uchar disp0[] = "distance ";
 uchar disp1[] = "mm\n";
 void Count()
@@ -97,6 +127,9 @@ void Count()
 	//if((ss[3]-ss[0]<=100)
 	//{s = (ss[0] + ss[1] + ss[2] + ss[3])/4;}
 	//else{s=ss[0]=ss[1]=ss[2]=ss[3];}
+	mins = min(ss);
+	maxs = max(ss);
+	s = (ss[0]+ss[1]+ss[2]+ss[3]-mins-maxs)/2;
 	if(s>=4000|flag==1)
 	{
 		flag = 0;
@@ -119,8 +152,8 @@ void Count()
 	uchar di2 = s%1000/100 + '0';
 	uchar di3 = s%100/10 + '0';
 	uchar di4 = s%10 + '0';
-	TH1 = 0xf3;
-	TL1 = 0xf3;
+	TH1 = SPEED;
+	TL1 = SPEED;
 	TR1 = 0;
 	delay(1);
 	TR1 = 1;
@@ -138,10 +171,10 @@ void main()
 	InitTimer();
 	while(1)
 	{
-		// if(k>=4)
-		 //{
-		 //	k = 0;
-		 //}
+		 if(k>=4)
+		 {
+		 	k = 0;
+		 }
 		 StartModule();
 		 while(!ECHO);
 		 TR0 = 1;
@@ -151,8 +184,8 @@ void main()
 		 TH0 = 0;
 		 TH1 = 0;
 		 s = (time/58.0)*10;
-		 //ss[k] = (time/58.0)*10;
-		 //k++;
+		 ss[k] = (time/58.0)*10;
+		 k++;
 	/*	for(k=0;k<4;k++)
 		{
 			StartModule();

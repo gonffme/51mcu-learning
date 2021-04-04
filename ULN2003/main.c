@@ -12,7 +12,7 @@ void delaymore(u8 j)
 {
 	while(j>0)
 	{
-		delay(100);
+		delay(10);
 		j--;
 	}
 }
@@ -22,14 +22,14 @@ void main()
 	P2 = 0x00;
 	while(1)
 	{
-		P0=0x70;
-		delaymore(100);
-		P0=0xb0;
-		delaymore(100);
-		P0=0xd0;
-		delaymore(100);
-		P0=0xe0;
-		delaymore(100);
+		P0=0x10;
+		delaymore(50);
+		P0=0x20;
+		delaymore(50);
+		P0=0x40;
+		delaymore(50);
+		P0=0x80;
+		delaymore(50);
 	}
 }
 

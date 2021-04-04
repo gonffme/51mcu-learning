@@ -165,6 +165,7 @@ Area                                    Addr        Size        Decimal Bytes (A
      000000AA  _EX1                               main
      000000AB  _ET1                               main
      000000AC  _ES                                main
+     000000AD  _ET2                               main
      000000AF  _EA                                main
      000000B0  _P3                                main
      000000B0  _P3_0                              main
@@ -189,6 +190,37 @@ Area                                    Addr        Size        Decimal Bytes (A
      000000BA  _PX1                               main
      000000BB  _PT1                               main
      000000BC  _PS                                main
+     000000BD  _PT2                               main
+     000000C8  _CP_RL2                            main
+     000000C8  _T2CON                             main
+     000000C8  _T2CON_0                           main
+     000000C9  _C_T2                              main
+     000000C9  _T2CON_1                           main
+     000000CA  _RCAP2L                            main
+     000000CA  _T2CON_2                           main
+     000000CA  _TR2                               main
+     000000CB  _EXEN2                             main
+     000000CB  _RCAP2H                            main
+     000000CB  _T2CON_3                           main
+     000000CC  _T2CON_4                           main
+ASxxxx Linker V03.00 + NoICE + sdld,  page 5.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+.  .ABS.                            00000000    00000000 =           0. bytes (ABS,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     000000CC  _TCLK                              main
+     000000CC  _TL2                               main
+     000000CD  _RCLK                              main
+     000000CD  _T2CON_5                           main
+     000000CD  _TH2                               main
+     000000CE  _EXF2                              main
+     000000CE  _T2CON_6                           main
+     000000CF  _T2CON_7                           main
+     000000CF  _TF2                               main
      000000D0  _P                                 main
      000000D0  _PSW                               main
      000000D1  _F1                                main
@@ -201,7 +233,7 @@ Area                                    Addr        Size        Decimal Bytes (A
      000000E0  _ACC                               main
      000000F0  _B                                 main
 
-ASxxxx Linker V03.00 + NoICE + sdld,  page 5.
+ASxxxx Linker V03.00 + NoICE + sdld,  page 6.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
@@ -210,7 +242,7 @@ REG_BANK_0                          00000000    00000008 =           8. bytes (R
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-ASxxxx Linker V03.00 + NoICE + sdld,  page 6.
+ASxxxx Linker V03.00 + NoICE + sdld,  page 7.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
@@ -219,7 +251,7 @@ DSEG                                00000000    00000080 =         128. bytes (R
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-ASxxxx Linker V03.00 + NoICE + sdld,  page 7.
+ASxxxx Linker V03.00 + NoICE + sdld,  page 8.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
@@ -230,7 +262,7 @@ SSEG                                00000008    000000F8 =         248. bytes (R
       -----  --------------------------------   ------------------------
      00000008  __start__stack                     main
 
-ASxxxx Linker V03.00 + NoICE + sdld,  page 8.
+ASxxxx Linker V03.00 + NoICE + sdld,  page 9.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
@@ -241,7 +273,7 @@ HOME                                00000000    00000006 =           6. bytes (R
       -----  --------------------------------   ------------------------
 C:   00000003  __sdcc_program_startup             main
 
-ASxxxx Linker V03.00 + NoICE + sdld,  page 9.
+ASxxxx Linker V03.00 + NoICE + sdld,  page 10.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
@@ -252,7 +284,7 @@ GSINIT0                             00000006    00000003 =           3. bytes (R
       -----  --------------------------------   ------------------------
 C:   00000006  __sdcc_gsinit_startup              
 
-ASxxxx Linker V03.00 + NoICE + sdld,  page 10.
+ASxxxx Linker V03.00 + NoICE + sdld,  page 11.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
@@ -261,7 +293,7 @@ GSINIT2                             00000009    0000000A =          10. bytes (R
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-ASxxxx Linker V03.00 + NoICE + sdld,  page 11.
+ASxxxx Linker V03.00 + NoICE + sdld,  page 12.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
@@ -272,7 +304,7 @@ GSINIT3                             00000013    00000022 =          34. bytes (R
       -----  --------------------------------   ------------------------
 C:   00000013  __mcs51_genXINIT                   
 
-ASxxxx Linker V03.00 + NoICE + sdld,  page 12.
+ASxxxx Linker V03.00 + NoICE + sdld,  page 13.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
@@ -284,7 +316,7 @@ GSINIT4                             00000035    0000002A =          42. bytes (R
 C:   00000035  __mcs51_genRAMCLEAR                
 C:   0000003B  __mcs51_genXRAMCLEAR               
 
-ASxxxx Linker V03.00 + NoICE + sdld,  page 13.
+ASxxxx Linker V03.00 + NoICE + sdld,  page 14.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
@@ -293,7 +325,7 @@ GSFINAL                             0000005F    00000003 =           3. bytes (R
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-ASxxxx Linker V03.00 + NoICE + sdld,  page 14.
+ASxxxx Linker V03.00 + NoICE + sdld,  page 15.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
@@ -307,7 +339,7 @@ C:   00000074  _longdelay                         main
 C:   00000087  _main                              main
 C:   000000A7  __sdcc_external_startup            _startup
 
-ASxxxx Linker V03.00 + NoICE + sdld,  page 15.
+ASxxxx Linker V03.00 + NoICE + sdld,  page 16.
 
 Files Linked                              [ module(s) ]
 
@@ -329,7 +361,7 @@ Libraries Linked                          [ object file ]
 /usr/bin/../share/sdcc/lib/small/libsdcc.lib
                                           [ _startup.rel ]
 
-ASxxxx Linker V03.00 + NoICE + sdld,  page 16.
+ASxxxx Linker V03.00 + NoICE + sdld,  page 17.
 
 User Base Address Definitions
 

@@ -1,0 +1,109 @@
+#include "8051.h"
+#include "ds1302.h"
+
+void _nop()
+{
+}
+
+#define nop _nop()
+char READ_RTC_ADDR[7]={0x81,0x83,0x85,0x87,0x89,0x8b,0x8d};
+char WRITE_RTC_ADDR[7]={0x80,0x82,0x84,0x86,0x88,0x8a,0x8c};
+
+uchar TIME[7]={0x18,0x03,0x12,0x07,0x05,0x06,0x16};
+
+void Ds1302GW(uchar dat) //general writing in the communication protocol
+{
+	uchar n;
+	for(n=0;n<8;n++)
+	{
+		DSIO = dat&0x01; //lower bits first
+		SCLK = 1; //uprising edge transmit
+		_nop();
+		SCLK = 0;
+		_nop();
+		dat >= 1;
+	}
+}
+void Ds1302Write(uchar addr, uchar dat)
+{
+	RST = 0;
+	_nop();
+	SCLK = 0;
+	_nop();
+	RST = 1; //enable reset
+	_nop();
+	Ds1302GW(0x8e);
+	Ds1302GW(0x00);
+	RST = 0;
+	_nop();
+	SCLK = 0;
+	_nop();
+	RST = 1; //enable reset
+	_nop();
+	Ds1302GW(addr);
+	Ds1302GW(dat);
+	RST = 0;
+	_nop();
+	SCLK = 0;
+	_nop();
+	RST = 1; //enable reset
+	_nop();
+	Ds1302GW(0x8e);
+	Ds1302GW(0x80);
+	RST = 0;
+	_nop();
+}
+
+void Ds1302Init()
+{
+	uchar n;
+	for(n=0;n<7;n++)
+	{
+		Ds1302Write(WRITE_RTC_ADDR[n],TIME[n]);
+	}
+}
+
+uchar Ds1302GR()
+{
+	uchar n,dat=0x00;
+	for(n=0;n<8;n++)
+	{
+		dat >>= 1;
+		if(DSIO==1)
+		{
+			dat |= 0x80;
+		}
+		SCLK = 1;
+		_nop();
+		SCLK = 0;
+		_nop();
+	}
+	_nop();
+	return dat;
+}
+uchar Ds1302Read(uchar addr)
+{
+	uchar dat;
+	RST = 0;
+	_nop();
+	SCLK = 0;
+	_nop();
+	RST = 1;
+	_nop();
+	Ds1302GW(addr);
+	dat = Ds1302GR();
+	RST = 0; //make Ds1302 have time to get stable
+	_nop();
+	return dat;
+}
+
+void Ds1302ReadTime()
+{
+	uchar n;
+	for(n=0;n<7;n++)
+	{
+		TIME[n] = Ds1302Read(READ_RTC_ADDR[n]);
+	}
+}
+
+

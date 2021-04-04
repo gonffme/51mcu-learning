@@ -353,8 +353,8 @@
       000076                        353 00101$:
       000076 EF               [12]  354 	mov	a,r7
       000077 60 0D            [24]  355 	jz	00104$
-                                    356 ;	main.c:15: delay(100);
-      000079 90 00 64         [24]  357 	mov	dptr,#0x0064
+                                    356 ;	main.c:15: delay(10);
+      000079 90 00 0A         [24]  357 	mov	dptr,#0x000a
       00007C C0 07            [24]  358 	push	ar7
       00007E 12 00 62         [24]  359 	lcall	_delay
       000081 D0 07            [24]  360 	pop	ar7
@@ -376,25 +376,25 @@
       000087 75 A0 00         [24]  376 	mov	_P2,#0x00
                                     377 ;	main.c:23: while(1)
       00008A                        378 00102$:
-                                    379 ;	main.c:25: P0=0x70;
-      00008A 75 80 70         [24]  380 	mov	_P0,#0x70
-                                    381 ;	main.c:26: delaymore(100);
-      00008D 75 82 64         [24]  382 	mov	dpl,#0x64
+                                    379 ;	main.c:25: P0=0x10;
+      00008A 75 80 10         [24]  380 	mov	_P0,#0x10
+                                    381 ;	main.c:26: delaymore(50);
+      00008D 75 82 32         [24]  382 	mov	dpl,#0x32
       000090 12 00 74         [24]  383 	lcall	_delaymore
-                                    384 ;	main.c:27: P0=0xb0;
-      000093 75 80 B0         [24]  385 	mov	_P0,#0xb0
-                                    386 ;	main.c:28: delaymore(100);
-      000096 75 82 64         [24]  387 	mov	dpl,#0x64
+                                    384 ;	main.c:27: P0=0x20;
+      000093 75 80 20         [24]  385 	mov	_P0,#0x20
+                                    386 ;	main.c:28: delaymore(50);
+      000096 75 82 32         [24]  387 	mov	dpl,#0x32
       000099 12 00 74         [24]  388 	lcall	_delaymore
-                                    389 ;	main.c:29: P0=0xd0;
-      00009C 75 80 D0         [24]  390 	mov	_P0,#0xd0
-                                    391 ;	main.c:30: delaymore(100);
-      00009F 75 82 64         [24]  392 	mov	dpl,#0x64
+                                    389 ;	main.c:29: P0=0x40;
+      00009C 75 80 40         [24]  390 	mov	_P0,#0x40
+                                    391 ;	main.c:30: delaymore(50);
+      00009F 75 82 32         [24]  392 	mov	dpl,#0x32
       0000A2 12 00 74         [24]  393 	lcall	_delaymore
-                                    394 ;	main.c:31: P0=0xe0;
-      0000A5 75 80 E0         [24]  395 	mov	_P0,#0xe0
-                                    396 ;	main.c:32: delaymore(100);
-      0000A8 75 82 64         [24]  397 	mov	dpl,#0x64
+                                    394 ;	main.c:31: P0=0x80;
+      0000A5 75 80 80         [24]  395 	mov	_P0,#0x80
+                                    396 ;	main.c:32: delaymore(50);
+      0000A8 75 82 32         [24]  397 	mov	dpl,#0x32
       0000AB 12 00 74         [24]  398 	lcall	_delaymore
                                     399 ;	main.c:34: }
       0000AE 80 DA            [24]  400 	sjmp	00102$

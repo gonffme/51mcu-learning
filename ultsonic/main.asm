@@ -11,6 +11,8 @@
 	.globl _TimerOut
 	.globl _main
 	.globl _Count
+	.globl _max
+	.globl _min
 	.globl _InitTimer
 	.globl _StartModule
 	.globl _Send_Str
@@ -116,6 +118,8 @@
 	.globl _P0
 	.globl _disp1
 	.globl _disp0
+	.globl _maxs
+	.globl _mins
 	.globl _ss
 	.globl _s
 	.globl _time
@@ -249,6 +253,10 @@ _s::
 	.ds 2
 _ss::
 	.ds 8
+_mins::
+	.ds 2
+_maxs::
+	.ds 2
 _disp0::
 	.ds 10
 _disp1::
@@ -256,6 +264,8 @@ _disp1::
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
 ;--------------------------------------------------------
+	.area	OSEG    (OVR,DATA)
+	.area	OSEG    (OVR,DATA)
 	.area	OSEG    (OVR,DATA)
 	.area	OSEG    (OVR,DATA)
 	.area	OSEG    (OVR,DATA)
@@ -356,7 +366,7 @@ __interrupt_vect:
 	mov	(_Display + 0x0005),#0x00
 	mov	(_Display + 0x0006),#0x00
 	mov	(_Display + 0x0007),#0x00
-;	main.c:92: uint ss[4] = {0, 0, 0, 0};
+;	main.c:121: uint ss[4] = {0, 0, 0, 0};
 	clr	a
 	mov	(_ss + 0),a
 	mov	(_ss + 1),a
@@ -366,7 +376,7 @@ __interrupt_vect:
 	mov	((_ss + 0x0004) + 1),a
 	mov	((_ss + 0x0006) + 0),a
 	mov	((_ss + 0x0006) + 1),a
-;	main.c:93: uchar disp0[] = "distance ";
+;	main.c:123: uchar disp0[] = "distance ";
 	mov	_disp0,#0x64
 	mov	(_disp0 + 0x0001),#0x69
 	mov	(_disp0 + 0x0002),#0x73
@@ -378,7 +388,7 @@ __interrupt_vect:
 	mov	(_disp0 + 0x0008),#0x20
 ;	1-genFromRTrack replaced	mov	(_disp0 + 0x0009),#0x00
 	mov	(_disp0 + 0x0009),a
-;	main.c:94: uchar disp1[] = "mm\n";
+;	main.c:124: uchar disp1[] = "mm\n";
 	mov	_disp1,#0x6d
 	mov	(_disp1 + 0x0001),#0x6d
 	mov	(_disp1 + 0x0002),#0x0a
@@ -697,33 +707,155 @@ _StartModule:
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'InitTimer'
 ;------------------------------------------------------------
-;	main.c:76: void InitTimer()
+;	main.c:80: void InitTimer()
 ;	-----------------------------------------
 ;	 function InitTimer
 ;	-----------------------------------------
 _InitTimer:
-;	main.c:78: TMOD = 0x21;
+;	main.c:82: TMOD = 0x21;
 	mov	_TMOD,#0x21
-;	main.c:80: SCON = 0x50;
+;	main.c:83: PCON |= 0x80;
+	mov	r6,_PCON
+	orl	ar6,#0x80
+	mov	_PCON,r6
+;	main.c:85: SCON = 0x50;
 	mov	_SCON,#0x50
-;	main.c:81: TH1 = 0xf3;
-	mov	_TH1,#0xf3
-;	main.c:82: TL1 = 0xf3;
-	mov	_TL1,#0xf3
-;	main.c:83: TH0 = 0;
+;	main.c:86: TH1 = SPEED;
+	mov	_TH1,#0xff
+;	main.c:87: TL1 = SPEED;
+	mov	_TL1,#0xff
+;	main.c:88: TH0 = 0;
 	mov	_TH0,#0x00
-;	main.c:84: TL0 = 0;
+;	main.c:89: TL0 = 0;
 	mov	_TL0,#0x00
-;	main.c:85: TR1 = 1;
+;	main.c:90: TR1 = 1;
 ;	assignBit
 	setb	_TR1
-;	main.c:86: EA = 1;
+;	main.c:91: EA = 1;
 ;	assignBit
 	setb	_EA
-;	main.c:87: ES = 1;
+;	main.c:92: ES = 1;
 ;	assignBit
 	setb	_ES
-;	main.c:88: }
+;	main.c:93: }
+	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'min'
+;------------------------------------------------------------
+;s                         Allocated to registers r5 r6 r7 
+;temp                      Allocated to registers r3 r4 
+;i                         Allocated to registers r2 
+;------------------------------------------------------------
+;	main.c:95: uint min(uint * s)
+;	-----------------------------------------
+;	 function min
+;	-----------------------------------------
+_min:
+;	main.c:97: uint temp=*s;
+	mov	r5,dpl
+	mov	r6,dph
+	mov	r7,b
+	lcall	__gptrget
+	mov	r3,a
+	inc	dptr
+	lcall	__gptrget
+	mov	r4,a
+;	main.c:99: for(i=0;i<3;i++)
+	mov	r2,#0x00
+00104$:
+;	main.c:101: s+=1;
+	mov	a,#0x02
+	add	a,r5
+	mov	r5,a
+	clr	a
+	addc	a,r6
+	mov	r6,a
+;	main.c:102: if(temp>*s)temp=*s;
+	mov	dpl,r5
+	mov	dph,r6
+	mov	b,r7
+	lcall	__gptrget
+	mov	r0,a
+	inc	dptr
+	lcall	__gptrget
+	mov	r1,a
+	clr	c
+	mov	a,r0
+	subb	a,r3
+	mov	a,r1
+	subb	a,r4
+	jnc	00105$
+	mov	ar3,r0
+	mov	ar4,r1
+00105$:
+;	main.c:99: for(i=0;i<3;i++)
+	inc	r2
+	cjne	r2,#0x03,00122$
+00122$:
+	jc	00104$
+;	main.c:104: return temp;
+	mov	dpl,r3
+	mov	dph,r4
+;	main.c:105: }
+	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'max'
+;------------------------------------------------------------
+;s                         Allocated to registers r5 r6 r7 
+;temp                      Allocated to registers r3 r4 
+;i                         Allocated to registers r2 
+;------------------------------------------------------------
+;	main.c:107: uint max(uint * s)
+;	-----------------------------------------
+;	 function max
+;	-----------------------------------------
+_max:
+;	main.c:109: uint temp=*s;
+	mov	r5,dpl
+	mov	r6,dph
+	mov	r7,b
+	lcall	__gptrget
+	mov	r3,a
+	inc	dptr
+	lcall	__gptrget
+	mov	r4,a
+;	main.c:111: for(i=0;i<3;i++)
+	mov	r2,#0x00
+00104$:
+;	main.c:113: s+=1;
+	mov	a,#0x02
+	add	a,r5
+	mov	r5,a
+	clr	a
+	addc	a,r6
+	mov	r6,a
+;	main.c:114: if(temp<*s)temp=*s;
+	mov	dpl,r5
+	mov	dph,r6
+	mov	b,r7
+	lcall	__gptrget
+	mov	r0,a
+	inc	dptr
+	lcall	__gptrget
+	mov	r1,a
+	clr	c
+	mov	a,r3
+	subb	a,r0
+	mov	a,r4
+	subb	a,r1
+	jnc	00105$
+	mov	ar3,r0
+	mov	ar4,r1
+00105$:
+;	main.c:111: for(i=0;i<3;i++)
+	inc	r2
+	cjne	r2,#0x03,00122$
+00122$:
+	jc	00104$
+;	main.c:116: return temp;
+	mov	dpl,r3
+	mov	dph,r4
+;	main.c:117: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'Count'
@@ -733,12 +865,63 @@ _InitTimer:
 ;di3                       Allocated to registers r4 
 ;di4                       Allocated to registers r3 
 ;------------------------------------------------------------
-;	main.c:95: void Count()
+;	main.c:125: void Count()
 ;	-----------------------------------------
 ;	 function Count
 ;	-----------------------------------------
 _Count:
-;	main.c:100: if(s>=4000|flag==1)
+;	main.c:130: mins = min(ss);
+	mov	dptr,#_ss
+	mov	b,#0x40
+	lcall	_min
+	mov	_mins,dpl
+	mov	(_mins + 1),dph
+;	main.c:131: maxs = max(ss);
+	mov	dptr,#_ss
+	mov	b,#0x40
+	lcall	_max
+	mov	_maxs,dpl
+	mov	(_maxs + 1),dph
+;	main.c:132: s = (ss[0]+ss[1]+ss[2]+ss[3]-mins-maxs)/2;
+	mov	a,(_ss + 0x0002)
+	add	a,_ss
+	mov	r6,a
+	mov	a,((_ss + 0x0002) + 1)
+	addc	a,(_ss + 1)
+	mov	r7,a
+	mov	a,(_ss + 0x0004)
+	add	a,r6
+	mov	r6,a
+	mov	a,((_ss + 0x0004) + 1)
+	addc	a,r7
+	mov	r7,a
+	mov	a,(_ss + 0x0006)
+	add	a,r6
+	mov	r6,a
+	mov	a,((_ss + 0x0006) + 1)
+	addc	a,r7
+	mov	r7,a
+	mov	a,r6
+	clr	c
+	subb	a,_mins
+	mov	r6,a
+	mov	a,r7
+	subb	a,(_mins + 1)
+	mov	r7,a
+	mov	a,r6
+	clr	c
+	subb	a,_maxs
+	mov	r6,a
+	mov	a,r7
+	subb	a,(_maxs + 1)
+	mov	_s,r6
+	clr	c
+	rrc	a
+	xch	a,_s
+	rrc	a
+	xch	a,_s
+	mov	(_s + 1),a
+;	main.c:133: if(s>=4000|flag==1)
 	clr	c
 	mov	a,_s
 	subb	a,#0xa0
@@ -758,19 +941,19 @@ _Count:
 	mov	r6,a
 	orl	a,r7
 	jz	00102$
-;	main.c:102: flag = 0;
+;	main.c:135: flag = 0;
 	mov	_flag,#0x00
-;	main.c:103: Display[0] = 0x40;
+;	main.c:136: Display[0] = 0x40;
 	mov	_Display,#0x40
-;	main.c:104: Display[1] = 0x40;
+;	main.c:137: Display[1] = 0x40;
 	mov	(_Display + 0x0001),#0x40
-;	main.c:105: Display[2] = 0x40;
+;	main.c:138: Display[2] = 0x40;
 	mov	(_Display + 0x0002),#0x40
-;	main.c:106: Display[3] = 0x40;
+;	main.c:139: Display[3] = 0x40;
 	mov	(_Display + 0x0003),#0x40
 	ljmp	00103$
 00102$:
-;	main.c:110: Display[0] = smgduan[s/1000]|0x80;
+;	main.c:143: Display[0] = smgduan[s/1000]|0x80;
 	mov	__divuint_PARM_2,#0xe8
 	mov	(__divuint_PARM_2 + 1),#0x03
 	mov	dpl,_s
@@ -782,9 +965,9 @@ _Count:
 	mov	ar7,@r1
 	orl	ar7,#0x80
 	mov	_Display,r7
-;	main.c:111: DisplayDigits();
+;	main.c:144: DisplayDigits();
 	lcall	_DisplayDigits
-;	main.c:112: Display[1] = smgduan[s%1000/100];
+;	main.c:145: Display[1] = smgduan[s%1000/100];
 	mov	__moduint_PARM_2,#0xe8
 	mov	(__moduint_PARM_2 + 1),#0x03
 	mov	dpl,_s
@@ -798,9 +981,9 @@ _Count:
 	mov	r1,a
 	mov	ar7,@r1
 	mov	(_Display + 0x0001),r7
-;	main.c:113: DisplayDigits();
+;	main.c:146: DisplayDigits();
 	lcall	_DisplayDigits
-;	main.c:114: Display[2] = smgduan[s%100/10];
+;	main.c:147: Display[2] = smgduan[s%100/10];
 	mov	__moduint_PARM_2,#0x64
 	mov	(__moduint_PARM_2 + 1),#0x00
 	mov	dpl,_s
@@ -814,9 +997,9 @@ _Count:
 	mov	r1,a
 	mov	ar7,@r1
 	mov	(_Display + 0x0002),r7
-;	main.c:115: DisplayDigits();
+;	main.c:148: DisplayDigits();
 	lcall	_DisplayDigits
-;	main.c:116: Display[3] = smgduan[s%10];
+;	main.c:149: Display[3] = smgduan[s%10];
 	mov	__moduint_PARM_2,#0x0a
 	mov	(__moduint_PARM_2 + 1),#0x00
 	mov	dpl,_s
@@ -829,7 +1012,7 @@ _Count:
 	mov	ar7,@r1
 	mov	(_Display + 0x0003),r7
 00103$:
-;	main.c:118: uchar di1 = s/1000 + '0';
+;	main.c:151: uchar di1 = s/1000 + '0';
 	mov	__divuint_PARM_2,#0xe8
 	mov	(__divuint_PARM_2 + 1),#0x03
 	mov	dpl,_s
@@ -839,7 +1022,7 @@ _Count:
 	mov	a,#0x30
 	add	a,r6
 	mov	r6,a
-;	main.c:119: uchar di2 = s%1000/100 + '0';
+;	main.c:152: uchar di2 = s%1000/100 + '0';
 	mov	__moduint_PARM_2,#0xe8
 	mov	(__moduint_PARM_2 + 1),#0x03
 	mov	dpl,_s
@@ -853,7 +1036,7 @@ _Count:
 	mov	a,#0x30
 	add	a,r5
 	mov	r5,a
-;	main.c:120: uchar di3 = s%100/10 + '0';
+;	main.c:153: uchar di3 = s%100/10 + '0';
 	mov	__moduint_PARM_2,#0x64
 	mov	(__moduint_PARM_2 + 1),#0x00
 	mov	dpl,_s
@@ -867,7 +1050,7 @@ _Count:
 	mov	a,#0x30
 	add	a,r4
 	mov	r4,a
-;	main.c:121: uchar di4 = s%10 + '0';
+;	main.c:154: uchar di4 = s%10 + '0';
 	mov	__moduint_PARM_2,#0x0a
 	mov	(__moduint_PARM_2 + 1),#0x00
 	mov	dpl,_s
@@ -878,14 +1061,14 @@ _Count:
 	mov	a,#0x30
 	add	a,r3
 	mov	r3,a
-;	main.c:122: TH1 = 0xf3;
-	mov	_TH1,#0xf3
-;	main.c:123: TL1 = 0xf3;
-	mov	_TL1,#0xf3
-;	main.c:124: TR1 = 0;
+;	main.c:155: TH1 = SPEED;
+	mov	_TH1,#0xff
+;	main.c:156: TL1 = SPEED;
+	mov	_TL1,#0xff
+;	main.c:157: TR1 = 0;
 ;	assignBit
 	clr	_TR1
-;	main.c:125: delay(1);
+;	main.c:158: delay(1);
 	mov	dptr,#0x0001
 	push	ar3
 	lcall	_delay
@@ -893,10 +1076,10 @@ _Count:
 	pop	ar4
 	pop	ar5
 	pop	ar6
-;	main.c:126: TR1 = 1;
+;	main.c:159: TR1 = 1;
 ;	assignBit
 	setb	_TR1
-;	main.c:127: Send_Str(disp0);
+;	main.c:160: Send_Str(disp0);
 	mov	dptr,#_disp0
 	mov	b,#0x40
 	push	ar6
@@ -908,7 +1091,7 @@ _Count:
 	pop	ar4
 	pop	ar5
 	pop	ar6
-;	main.c:128: Send_Char(di1);
+;	main.c:161: Send_Char(di1);
 	mov	dpl,r6
 	push	ar5
 	push	ar4
@@ -917,84 +1100,98 @@ _Count:
 	pop	ar3
 	pop	ar4
 	pop	ar5
-;	main.c:129: Send_Char(di2);
+;	main.c:162: Send_Char(di2);
 	mov	dpl,r5
 	push	ar4
 	push	ar3
 	lcall	_Send_Char
 	pop	ar3
 	pop	ar4
-;	main.c:130: Send_Char(di3);
+;	main.c:163: Send_Char(di3);
 	mov	dpl,r4
 	push	ar3
 	lcall	_Send_Char
 	pop	ar3
-;	main.c:131: Send_Char(di4);
+;	main.c:164: Send_Char(di4);
 	mov	dpl,r3
 	lcall	_Send_Char
-;	main.c:132: Send_Str(disp1);
+;	main.c:165: Send_Str(disp1);
 	mov	dptr,#_disp1
 	mov	b,#0x40
 	lcall	_Send_Str
-;	main.c:133: TR1 =0;
+;	main.c:166: TR1 =0;
 ;	assignBit
 	clr	_TR1
-;	main.c:134: }
+;	main.c:167: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'main'
 ;------------------------------------------------------------
-;k                         Allocated to registers 
-;i                         Allocated to registers r7 
+;k                         Allocated to registers r7 
+;i                         Allocated to registers r6 
 ;------------------------------------------------------------
-;	main.c:135: void main()
+;	main.c:168: void main()
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
 _main:
-;	main.c:138: InitTimer();
+;	main.c:170: uchar k=0;
+	mov	r7,#0x00
+;	main.c:171: InitTimer();
+	push	ar7
 	lcall	_InitTimer
-;	main.c:139: while(1)
-00111$:
-;	main.c:145: StartModule();
+	pop	ar7
+;	main.c:172: while(1)
+00113$:
+;	main.c:174: if(k>=4)
+	cjne	r7,#0x04,00150$
+00150$:
+	jc	00102$
+;	main.c:176: k = 0;
+	mov	r7,#0x00
+00102$:
+;	main.c:178: StartModule();
+	push	ar7
 	lcall	_StartModule
-;	main.c:146: while(!ECHO);
-00101$:
-	jnb	_P1_2,00101$
-;	main.c:147: TR0 = 1;
+	pop	ar7
+;	main.c:179: while(!ECHO);
+00103$:
+	jnb	_P1_2,00103$
+;	main.c:180: TR0 = 1;
 ;	assignBit
 	setb	_TR0
-;	main.c:148: while(ECHO);
-00104$:
-	jb	_P1_2,00104$
-;	main.c:149: TR0 = 0;
+;	main.c:181: while(ECHO);
+00106$:
+	jb	_P1_2,00106$
+;	main.c:182: TR0 = 0;
 ;	assignBit
 	clr	_TR0
-;	main.c:150: time = TH0*0x100 + TL0;
-	mov	r7,_TH0
-	mov	r6,#0x00
-	mov	r4,_TL0
+;	main.c:183: time = TH0*0x100 + TL0;
+	mov	r6,_TH0
 	mov	r5,#0x00
-	mov	a,r4
-	add	a,r6
+	mov	r3,_TL0
+	mov	r4,#0x00
+	mov	a,r3
+	add	a,r5
 	mov	_time,a
-	mov	a,r5
-	addc	a,r7
+	mov	a,r4
+	addc	a,r6
 	mov	(_time + 1),a
-;	main.c:151: TH0 = 0;
+;	main.c:184: TH0 = 0;
 ;	1-genFromRTrack replaced	mov	_TH0,#0x00
-	mov	_TH0,r6
-;	main.c:152: TH1 = 0;
+	mov	_TH0,r5
+;	main.c:185: TH1 = 0;
 ;	1-genFromRTrack replaced	mov	_TH1,#0x00
-	mov	_TH1,r6
-;	main.c:153: s = (time/58.0)*10;
+	mov	_TH1,r5
+;	main.c:186: s = (time/58.0)*10;
 	mov	dpl,_time
 	mov	dph,(_time + 1)
+	push	ar7
 	lcall	___uint2fs
-	mov	r4,dpl
-	mov	r5,dph
-	mov	r6,b
-	mov	r7,a
+	mov	r3,dpl
+	mov	r4,dph
+	mov	r5,b
+	mov	r6,a
 	clr	a
 	push	acc
 	push	acc
@@ -1002,71 +1199,90 @@ _main:
 	push	acc
 	mov	a,#0x42
 	push	acc
-	mov	dpl,r4
-	mov	dph,r5
-	mov	b,r6
-	mov	a,r7
+	mov	dpl,r3
+	mov	dph,r4
+	mov	b,r5
+	mov	a,r6
 	lcall	___fsdiv
-	mov	r4,dpl
-	mov	r5,dph
-	mov	r6,b
-	mov	r7,a
+	mov	r3,dpl
+	mov	r4,dph
+	mov	r5,b
+	mov	r6,a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
+	push	ar3
 	push	ar4
 	push	ar5
 	push	ar6
-	push	ar7
 	mov	dptr,#0x0000
 	mov	b,#0x20
 	mov	a,#0x41
 	lcall	___fsmul
-	mov	r4,dpl
-	mov	r5,dph
-	mov	r6,b
-	mov	r7,a
+	mov	r3,dpl
+	mov	r4,dph
+	mov	r5,b
+	mov	r6,a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	mov	dpl,r4
-	mov	dph,r5
-	mov	b,r6
-	mov	a,r7
-	lcall	___fs2uint
-	mov	_s,dpl
-	mov	(_s + 1),dph
-;	main.c:172: Count();
-	lcall	_Count
-;	main.c:174: while(i--)
-	mov	r7,#0x0f
-00107$:
-	mov	ar6,r7
-	dec	r7
+	mov	dpl,r3
+	mov	dph,r4
+	mov	b,r5
 	mov	a,r6
-	jz	00109$
-;	main.c:176: DisplayDigits();
-	push	ar7
-	lcall	_DisplayDigits
+	lcall	___fs2uint
+	mov	r5,dpl
+	mov	r6,dph
 	pop	ar7
-	sjmp	00107$
+	mov	_s,r5
+	mov	(_s + 1),r6
+;	main.c:187: ss[k] = (time/58.0)*10;
+	mov	a,r7
+	add	a,r7
+	add	a,#_ss
+	mov	r0,a
+	mov	@r0,ar5
+	inc	r0
+	mov	@r0,ar6
+;	main.c:188: k++;
+	inc	r7
+;	main.c:205: Count();
+	push	ar7
+	lcall	_Count
+	pop	ar7
+;	main.c:207: while(i--)
+	mov	r6,#0x0f
 00109$:
-;	main.c:178: DelayXus(10);
+	mov	ar5,r6
+	dec	r6
+	mov	a,r5
+	jz	00111$
+;	main.c:209: DisplayDigits();
+	push	ar7
+	push	ar6
+	lcall	_DisplayDigits
+	pop	ar6
+	pop	ar7
+	sjmp	00109$
+00111$:
+;	main.c:211: DelayXus(10);
 	mov	dptr,#0x000a
+	push	ar7
 	lcall	_DelayXus
-;	main.c:180: }
-	ljmp	00111$
+	pop	ar7
+;	main.c:213: }
+	ljmp	00113$
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'TimerOut'
 ;------------------------------------------------------------
-;	main.c:182: void TimerOut() __interrupt 1
+;	main.c:215: void TimerOut() __interrupt 1
 ;	-----------------------------------------
 ;	 function TimerOut
 ;	-----------------------------------------
 _TimerOut:
-;	main.c:184: flag = 1;
+;	main.c:217: flag = 1;
 	mov	_flag,#0x01
-;	main.c:185: }
+;	main.c:218: }
 	reti
 ;	eliminated unneeded mov psw,# (no regs used in bank)
 ;	eliminated unneeded push/pop psw

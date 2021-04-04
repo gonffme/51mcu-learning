@@ -339,12 +339,12 @@ __interrupt_vect:
 	mov	(_Display + 0x0005),#0x00
 	mov	(_Display + 0x0006),#0x00
 	mov	(_Display + 0x0007),#0x00
-;	main.c:45: uchar CurrentT = 0;
+;	main.c:46: uchar CurrentT = 0;
 	mov	_CurrentT,#0x00
-;	main.c:46: uchar Temp_Value[] = {0x00, 0x00};
+;	main.c:47: uchar Temp_Value[] = {0x00, 0x00};
 	mov	_Temp_Value,#0x00
 	mov	(_Temp_Value + 0x0001),#0x00
-;	main.c:47: uchar DS18B20_IS_OK = 1;
+;	main.c:48: uchar DS18B20_IS_OK = 1;
 	mov	_DS18B20_IS_OK,#0x01
 	.area GSFINAL (CODE)
 	ljmp	__sdcc_program_startup
@@ -553,6 +553,8 @@ _DisplayDigits:
 	push	ar7
 	lcall	_delay
 	pop	ar7
+;	main.c:39: P0 = 0x00;
+	mov	_P0,#0x00
 ;	main.c:32: for(i=0;i<7;i++)
 	inc	r7
 	cjne	r7,#0x07,00111$
@@ -560,47 +562,47 @@ _DisplayDigits:
 	jnc	00112$
 	ljmp	00102$
 00112$:
-;	main.c:40: }
+;	main.c:41: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'Init_DS18B20'
 ;------------------------------------------------------------
-;	main.c:49: uchar Init_DS18B20()
+;	main.c:50: uchar Init_DS18B20()
 ;	-----------------------------------------
 ;	 function Init_DS18B20
 ;	-----------------------------------------
 _Init_DS18B20:
-;	main.c:51: DQ = 1;
+;	main.c:52: DQ = 1;
 ;	assignBit
 	setb	_P3_3
-;	main.c:52: delay(8);
+;	main.c:53: delay(8);
 	mov	dptr,#0x0008
 	lcall	_delay
-;	main.c:53: DQ = 0;
+;	main.c:54: DQ = 0;
 ;	assignBit
 	clr	_P3_3
-;	main.c:54: delay(50);
+;	main.c:55: delay(50);
 	mov	dptr,#0x0032
 	lcall	_delay
-;	main.c:55: DQ = 1;
+;	main.c:56: DQ = 1;
 ;	assignBit
 	setb	_P3_3
-;	main.c:56: delay(7);
+;	main.c:57: delay(7);
 	mov	dptr,#0x0007
 	lcall	_delay
-;	main.c:57: status = DQ;
+;	main.c:58: status = DQ;
 ;	assignBit
 	mov	c,_P3_3
 	mov	_P3_2,c
-;	main.c:58: delay(50);
+;	main.c:59: delay(50);
 	mov	dptr,#0x0032
 	lcall	_delay
-;	main.c:59: return status;
+;	main.c:60: return status;
 	mov	c,_P3_2
 	clr	a
 	rlc	a
 	mov	dpl,a
-;	main.c:60: }
+;	main.c:61: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'ReadOneByte'
@@ -608,61 +610,61 @@ _Init_DS18B20:
 ;i                         Allocated to registers r6 
 ;dat                       Allocated to registers r7 
 ;------------------------------------------------------------
-;	main.c:61: uchar ReadOneByte()
+;	main.c:62: uchar ReadOneByte()
 ;	-----------------------------------------
 ;	 function ReadOneByte
 ;	-----------------------------------------
 _ReadOneByte:
-;	main.c:63: uchar i, dat=0;
+;	main.c:64: uchar i, dat=0;
 	mov	r7,#0x00
-;	main.c:64: DQ = 1;
+;	main.c:65: DQ = 1;
 ;	assignBit
 	setb	_P3_3
-;	main.c:65: delay(1);
+;	main.c:66: delay(1);
 	mov	dptr,#0x0001
 	push	ar7
 	lcall	_delay
 	pop	ar7
-;	main.c:66: for(i=0;i<8;i++)
+;	main.c:67: for(i=0;i<8;i++)
 	mov	r6,#0x00
 00104$:
-;	main.c:68: DQ = 0;
-;	assignBit
-	clr	_P3_3
 ;	main.c:69: dat >>= 1;
 	mov	a,r7
 	clr	c
 	rrc	a
 	mov	r7,a
-;	main.c:70: DQ = 1;
+;	main.c:70: DQ = 0;
+;	assignBit
+	clr	_P3_3
+;	main.c:71: DQ = 1;
 ;	assignBit
 	setb	_P3_3
-;	main.c:73: if(DQ)
+;	main.c:74: if(DQ)
 	jnb	_P3_3,00102$
-;	main.c:75: dat |= 0x80;
+;	main.c:76: dat |= 0x80;
 	mov	ar4,r7
 	mov	r5,#0x00
 	orl	ar4,#0x80
 	mov	ar7,r4
 00102$:
-;	main.c:77: delay(30);
-	mov	dptr,#0x001e
+;	main.c:78: delay(4);
+	mov	dptr,#0x0004
 	push	ar7
 	push	ar6
 	lcall	_delay
 	pop	ar6
 	pop	ar7
-;	main.c:78: DQ = 1;
+;	main.c:79: DQ = 1;
 ;	assignBit
 	setb	_P3_3
-;	main.c:66: for(i=0;i<8;i++)
+;	main.c:67: for(i=0;i<8;i++)
 	inc	r6
 	cjne	r6,#0x08,00122$
 00122$:
 	jc	00104$
-;	main.c:80: return dat;
+;	main.c:81: return dat;
 	mov	dpl,r7
-;	main.c:81: }
+;	main.c:82: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'WriteOneByte'
@@ -670,94 +672,94 @@ _ReadOneByte:
 ;dat                       Allocated to registers r7 
 ;i                         Allocated to registers r6 
 ;------------------------------------------------------------
-;	main.c:82: void WriteOneByte(uchar dat)
+;	main.c:83: void WriteOneByte(uchar dat)
 ;	-----------------------------------------
 ;	 function WriteOneByte
 ;	-----------------------------------------
 _WriteOneByte:
 	mov	r7,dpl
-;	main.c:85: for(i=0;i<8;i++)
+;	main.c:86: for(i=0;i<8;i++)
 	mov	r6,#0x00
 00102$:
-;	main.c:87: DQ = 0;
+;	main.c:88: DQ = 0;
 ;	assignBit
 	clr	_P3_3
-;	main.c:88: DQ = dat & 0x01;
+;	main.c:89: DQ = dat & 0x01;
 	mov	a,r7
 	anl	a,#0x01
 	add	a,#0xff
 	mov	_P3_3,c
-;	main.c:89: delay(5);
-	mov	dptr,#0x0005
+;	main.c:90: delay(4);//30-60 us is ok
+	mov	dptr,#0x0004
 	push	ar7
 	push	ar6
 	lcall	_delay
 	pop	ar6
 	pop	ar7
-;	main.c:90: DQ = 1;
+;	main.c:91: DQ = 1;
 ;	assignBit
 	setb	_P3_3
-;	main.c:91: dat >>= 1;
+;	main.c:92: dat >>= 1;
 	mov	a,r7
 	clr	c
 	rrc	a
 	mov	r7,a
-;	main.c:85: for(i=0;i<8;i++)
+;	main.c:86: for(i=0;i<8;i++)
 	inc	r6
 	cjne	r6,#0x08,00111$
 00111$:
 	jc	00102$
-;	main.c:93: }
+;	main.c:94: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'ReadTemperature'
 ;------------------------------------------------------------
-;	main.c:94: void ReadTemperature()
+;	main.c:95: void ReadTemperature()
 ;	-----------------------------------------
 ;	 function ReadTemperature
 ;	-----------------------------------------
 _ReadTemperature:
-;	main.c:96: if(Init_DS18B20())
+;	main.c:97: if(Init_DS18B20())
 	lcall	_Init_DS18B20
 	mov	a,dpl
 	jz	00102$
-;	main.c:97: DS18B20_IS_OK = 0;
+;	main.c:98: DS18B20_IS_OK = 0;
 	mov	_DS18B20_IS_OK,#0x00
 	ret
 00102$:
-;	main.c:100: WriteOneByte(0xcc);
+;	main.c:101: WriteOneByte(0xcc);
 	mov	dpl,#0xcc
 	lcall	_WriteOneByte
-;	main.c:101: DisplayDigits();
+;	main.c:102: DisplayDigits();
 	lcall	_DisplayDigits
-;	main.c:102: WriteOneByte(0x44);
+;	main.c:103: WriteOneByte(0x44);
 	mov	dpl,#0x44
 	lcall	_WriteOneByte
-;	main.c:103: DisplayDigits();
+;	main.c:104: DisplayDigits();
 	lcall	_DisplayDigits
-;	main.c:106: Init_DS18B20();
+;	main.c:107: Init_DS18B20();
 	lcall	_Init_DS18B20
-;	main.c:107: WriteOneByte(0xcc);
+;	main.c:108: WriteOneByte(0xcc);
 	mov	dpl,#0xcc
 	lcall	_WriteOneByte
-;	main.c:108: WriteOneByte(0xbe);
+;	main.c:109: WriteOneByte(0xbe);
 	mov	dpl,#0xbe
 	lcall	_WriteOneByte
-;	main.c:109: DisplayDigits();
+;	main.c:110: DisplayDigits();
 	lcall	_DisplayDigits
-;	main.c:110: Temp_Value[0] = ReadOneByte();
+;	main.c:111: Temp_Value[0] = ReadOneByte();
 	lcall	_ReadOneByte
 	mov	a,dpl
 	mov	_Temp_Value,a
-;	main.c:111: Temp_Value[1] = ReadOneByte();
+;	main.c:112: Temp_Value[1] = ReadOneByte();
 	lcall	_ReadOneByte
 	mov	a,dpl
 	mov	(_Temp_Value + 0x0001),a
-;	main.c:112: DisplayDigits();
+;	main.c:113: DisplayDigits();
 	lcall	_DisplayDigits
-;	main.c:113: DS18B20_IS_OK = 1;
+;	main.c:114: DS18B20_IS_OK = 1;
 	mov	_DS18B20_IS_OK,#0x01
-;	main.c:115: }
+;	main.c:116: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'Temperature_Process'
@@ -765,40 +767,40 @@ _ReadTemperature:
 ;Temper                    Allocated to registers r4 r5 
 ;tp                        Allocated to registers r4 r5 r6 r7 
 ;------------------------------------------------------------
-;	main.c:116: void Temperature_Process() //convert temperature from hex to decimal, then make it diplayable.
+;	main.c:117: void Temperature_Process() //convert temperature from hex to decimal, then make it diplayable.
 ;	-----------------------------------------
 ;	 function Temperature_Process
 ;	-----------------------------------------
 _Temperature_Process:
-;	main.c:118: int Temper = Temp_Value[1];
-;	main.c:119: Temper <<= 8;
+;	main.c:119: int Temper = Temp_Value[1];
+;	main.c:120: Temper <<= 8;
 	mov	r7,(_Temp_Value + 0x0001)
 	mov	r6,#0x00
-;	main.c:120: Temper |= Temp_Value[0];
+;	main.c:121: Temper |= Temp_Value[0];
 	mov	r4,_Temp_Value
 	mov	r5,#0x00
 	mov	a,r4
 	orl	ar6,a
 	mov	a,r5
 	orl	ar7,a
-;	main.c:121: DisplayDigits();
+;	main.c:122: DisplayDigits();
 	push	ar7
 	push	ar6
 	lcall	_DisplayDigits
 	pop	ar6
 	pop	ar7
-;	main.c:123: if(Temper<0)
+;	main.c:124: if(Temper<0)
 	mov	a,r7
 	jnb	acc.7,00102$
-;	main.c:125: Display[0] = 0x40;
+;	main.c:126: Display[0] = 0x40;
 	mov	_Display,#0x40
-;	main.c:126: Temper -= 1;
+;	main.c:127: Temper -= 1;
 	mov	a,r6
 	add	a,#0xff
 	mov	r4,a
 	mov	a,r7
 	addc	a,#0xff
-;	main.c:127: Temper = !Temper;
+;	main.c:128: Temper = !Temper;
 	orl	a,r4
 	cjne	a,#0x01,00112$
 00112$:
@@ -811,10 +813,10 @@ _Temperature_Process:
 	mov	r7,a
 	sjmp	00103$
 00102$:
-;	main.c:131: Display[0] = 0x00;
+;	main.c:132: Display[0] = 0x00;
 	mov	_Display,#0x00
 00103$:
-;	main.c:133: tp = Temper;
+;	main.c:134: tp = Temper;
 	mov	dpl,r6
 	mov	dph,r7
 	lcall	___sint2fs
@@ -822,7 +824,7 @@ _Temperature_Process:
 	mov	r5,dph
 	mov	r6,b
 	mov	r7,a
-;	main.c:134: DisplayDigits();
+;	main.c:135: DisplayDigits();
 	push	ar7
 	push	ar6
 	push	ar5
@@ -832,7 +834,7 @@ _Temperature_Process:
 	pop	ar5
 	pop	ar6
 	pop	ar7
-;	main.c:135: Temper = tp * 0.0625 * 100 + 0.5;
+;	main.c:136: Temper = tp * 0.0625 * 100 + 0.5;
 	push	ar4
 	push	ar5
 	push	ar6
@@ -873,13 +875,13 @@ _Temperature_Process:
 	lcall	___fs2sint
 	mov	r6,dpl
 	mov	r7,dph
-;	main.c:136: DisplayDigits();
+;	main.c:137: DisplayDigits();
 	push	ar7
 	push	ar6
 	lcall	_DisplayDigits
 	pop	ar6
 	pop	ar7
-;	main.c:137: Display[1] = smgduan[Temper/10000];
+;	main.c:138: Display[1] = smgduan[Temper/10000];
 	mov	__divsint_PARM_2,#0x10
 	mov	(__divsint_PARM_2 + 1),#0x27
 	mov	dpl,r6
@@ -895,13 +897,13 @@ _Temperature_Process:
 	mov	r1,a
 	mov	ar5,@r1
 	mov	(_Display + 0x0001),r5
-;	main.c:138: DisplayDigits();
+;	main.c:139: DisplayDigits();
 	push	ar7
 	push	ar6
 	lcall	_DisplayDigits
 	pop	ar6
 	pop	ar7
-;	main.c:139: Display[2] = smgduan[Temper%10000/1000];
+;	main.c:140: Display[2] = smgduan[Temper%10000/1000];
 	mov	__modsint_PARM_2,#0x10
 	mov	(__modsint_PARM_2 + 1),#0x27
 	mov	dpl,r6
@@ -920,13 +922,13 @@ _Temperature_Process:
 	mov	r1,a
 	mov	ar5,@r1
 	mov	(_Display + 0x0002),r5
-;	main.c:140: DisplayDigits();
+;	main.c:141: DisplayDigits();
 	push	ar7
 	push	ar6
 	lcall	_DisplayDigits
 	pop	ar6
 	pop	ar7
-;	main.c:141: Display[3] = smgduan[Temper%1000/100]|0x80;
+;	main.c:142: Display[3] = smgduan[Temper%1000/100]|0x80;
 	mov	__modsint_PARM_2,#0xe8
 	mov	(__modsint_PARM_2 + 1),#0x03
 	mov	dpl,r6
@@ -946,13 +948,13 @@ _Temperature_Process:
 	mov	ar5,@r1
 	orl	ar5,#0x80
 	mov	(_Display + 0x0003),r5
-;	main.c:142: DisplayDigits();
+;	main.c:143: DisplayDigits();
 	push	ar7
 	push	ar6
 	lcall	_DisplayDigits
 	pop	ar6
 	pop	ar7
-;	main.c:143: Display[4] = smgduan[Temper%100/10];
+;	main.c:144: Display[4] = smgduan[Temper%100/10];
 	mov	__modsint_PARM_2,#0x64
 	mov	(__modsint_PARM_2 + 1),#0x00
 	mov	dpl,r6
@@ -971,13 +973,13 @@ _Temperature_Process:
 	mov	r1,a
 	mov	ar5,@r1
 	mov	(_Display + 0x0004),r5
-;	main.c:144: DisplayDigits();
+;	main.c:145: DisplayDigits();
 	push	ar7
 	push	ar6
 	lcall	_DisplayDigits
 	pop	ar6
 	pop	ar7
-;	main.c:145: Display[5] = smgduan[Temper%10];
+;	main.c:146: Display[5] = smgduan[Temper%10];
 	mov	__modsint_PARM_2,#0x0a
 	mov	(__modsint_PARM_2 + 1),#0x00
 	mov	dpl,r6
@@ -988,49 +990,49 @@ _Temperature_Process:
 	mov	r1,a
 	mov	ar7,@r1
 	mov	(_Display + 0x0005),r7
-;	main.c:146: }
+;	main.c:147: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'main'
 ;------------------------------------------------------------
 ;i                         Allocated to registers r7 
 ;------------------------------------------------------------
-;	main.c:148: void main()
+;	main.c:149: void main()
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
 _main:
-;	main.c:150: Init_DS18B20();
+;	main.c:151: Init_DS18B20();
 	lcall	_Init_DS18B20
-;	main.c:151: delay(50000);
+;	main.c:152: delay(50000);
 	mov	dptr,#0xc350
 	lcall	_delay
-;	main.c:152: delay(25000);
+;	main.c:153: delay(25000);
 	mov	dptr,#0x61a8
 	lcall	_delay
-;	main.c:153: while(1)
+;	main.c:154: while(1)
 00105$:
-;	main.c:155: ReadTemperature();
+;	main.c:156: ReadTemperature();
 	lcall	_ReadTemperature
-;	main.c:156: Temperature_Process();
+;	main.c:157: Temperature_Process();
 	lcall	_Temperature_Process
-;	main.c:158: while(i--)
+;	main.c:159: while(i--)
 	mov	r7,#0x0a
 00101$:
 	mov	ar6,r7
 	dec	r7
 	mov	a,r6
 	jz	00103$
-;	main.c:160: DisplayDigits();
+;	main.c:161: DisplayDigits();
 	push	ar7
 	lcall	_DisplayDigits
 	pop	ar7
 	sjmp	00101$
 00103$:
-;	main.c:162: DelayXus(10);
+;	main.c:163: DelayXus(10);
 	mov	dptr,#0x000a
 	lcall	_DelayXus
-;	main.c:164: }
+;	main.c:165: }
 	sjmp	00105$
 	.area CSEG    (CODE)
 	.area CONST   (CODE)

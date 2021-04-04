@@ -1,4 +1,4 @@
-********************************LED segment Display driver****************************
+//********************************LED segment Display driver****************************
 #define LSA P2_2
 #define LSB P2_3
 #define LSC P2_4

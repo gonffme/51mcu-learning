@@ -69,20 +69,20 @@ CABS                                00000000    00000000 =           0. bytes (A
 C:   00000020  s__CODE                         
 C:   00000022  l_GSINIT3                       
 C:   0000002A  l_GSINIT4                       
-C:   0000003B  s_OSEG                          
-C:   0000003D  s_SSEG                          
+C:   0000003F  s_OSEG                          
 C:   00000040  s_GSINIT4                       
+C:   00000041  s_SSEG                          
 C:   0000006A  s_GSINIT                        
 C:   0000006A  s_GSINIT5                       
 C:   00000080  l_DSEG                          
 C:   00000084  l_GSINIT                        
-C:   000000C3  l_SSEG                          
+C:   000000BF  l_SSEG                          
 C:   000000EE  s_GSFINAL                       
 C:   000000F1  s_CSEG                          
 C:   00000100  l_IRAM                          
-C:   000006EB  l_CSEG                          
-C:   000007DC  s_CONST                         
-C:   000007DC  s_XINIT                         
+C:   000007EE  l_CSEG                          
+C:   000008DF  s_CONST                         
+C:   000008DF  s_XINIT                         
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 Hexadecimal  [32-Bits]
@@ -228,33 +228,35 @@ DSEG                                00000000    00000080 =         128. bytes (R
      00000021  _time                              main
      00000023  _s                                 main
      00000025  _ss                                main
-     0000002D  _disp0                             main
-     00000037  _disp1                             main
+     0000002D  _mins                              main
+     0000002F  _maxs                              main
+     00000031  _disp0                             main
+     0000003B  _disp1                             main
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 7.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-OSEG                                0000003B    00000002 =           2. bytes (REL,OVR)
+OSEG                                0000003F    00000002 =           2. bytes (REL,OVR)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     0000003B  __divsint_PARM_2                   _divuint
-     0000003B  __divuint_PARM_2                   _divuint
-     0000003B  __modsint_PARM_2                   _moduint
-     0000003B  __moduint_PARM_2                   _moduint
+     0000003F  __divsint_PARM_2                   _divuint
+     0000003F  __divuint_PARM_2                   _divuint
+     0000003F  __modsint_PARM_2                   _moduint
+     0000003F  __moduint_PARM_2                   _moduint
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 8.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-SSEG                                0000003D    000000C3 =         195. bytes (REL,OVR)
+SSEG                                00000041    000000BF =         191. bytes (REL,OVR)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     0000003D  __start__stack                     main
+     00000041  __start__stack                     main
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 9.
 Hexadecimal  [32-Bits]
@@ -333,7 +335,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-CSEG                                000000F1    000006EB =        1771. bytes (REL,CON,CODE)
+CSEG                                000000F1    000007EE =        2030. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -344,32 +346,35 @@ C:   000001C7  _Send_Char                         main
 C:   000001D5  _Send_Str                          main
 C:   00000202  _StartModule                       main
 C:   0000020D  _InitTimer                         main
-C:   00000226  _Count                             main
-C:   000003A9  _main                              main
-C:   0000044E  _TimerOut                          main
-C:   00000452  __divuint                          _divuint
-C:   0000047B  ___fsmul                           _fsmul
-C:   0000051E  fsgetargs                          _fsget2args
-C:   0000054C  fs_normalize_a                     _fsnormalize
-C:   0000057F  __moduint                          _moduint
-C:   000005CC  ___uint2fs                         _uint2fs
-C:   000005D8  ___fs2uint                         _fs2uint
-C:   000005E3  fs_round_and_return                _fsreturnval
-C:   000005FB  fs_zerocheck_return                _fsreturnval
-C:   00000604  fs_return_zero                     _fsreturnval
-C:   0000060C  fs_direct_return                   _fsreturnval
-C:   0000061A  fs_return_inf                      _fsreturnval
-C:   00000627  fs_return_nan                      _fsreturnval
-C:   00000632  ___fsdiv                           _fsdiv
-C:   000006F5  __gptrget                          _gptrget
-C:   00000711  ___ulong2fs                        _ulong2fs
-C:   0000071A  ulong2fs_doit                      _ulong2fs
-C:   00000724  __divsint                          _divsint
-C:   0000075C  __sdcc_external_startup            _startup
-C:   00000760  ___fs2ulong                        _fs2ulong
-C:   00000762  fs2ulong_begin                     _fs2ulong
-C:   00000787  fs_rshift_a                        _fsrshift
-C:   000007CA  fsgetarg                           _fsget1arg
+C:   0000022D  _min                               main
+C:   0000026A  _max                               main
+C:   000002A7  _Count                             main
+C:   0000047E  _main                              main
+C:   00000551  _TimerOut                          main
+C:   00000555  __divuint                          _divuint
+C:   0000057E  ___fsmul                           _fsmul
+C:   00000621  fsgetargs                          _fsget2args
+C:   0000064F  fs_normalize_a                     _fsnormalize
+C:   00000682  __moduint                          _moduint
+C:   000006CF  ___uint2fs                         _uint2fs
+C:   000006DB  ___fs2uint                         _fs2uint
+C:   000006E6  fs_round_and_return                _fsreturnval
+C:   000006FE  fs_zerocheck_return                _fsreturnval
+C:   00000707  fs_return_zero                     _fsreturnval
+C:   0000070F  fs_direct_return                   _fsreturnval
+C:   0000071D  fs_return_inf                      _fsreturnval
+C:   0000072A  fs_return_nan                      _fsreturnval
+C:   00000735  ___fsdiv                           _fsdiv
+C:   000007F8  __gptrget                          _gptrget
+C:   00000814  ___ulong2fs                        _ulong2fs
+C:   0000081D  ulong2fs_doit                      _ulong2fs
+C:   00000827  __divsint                          _divsint
+C:   0000085F  __sdcc_external_startup            _startup
+C:   00000863  ___fs2ulong                        _fs2ulong
+C:   00000865  fs2ulong_begin                     _fs2ulong
+C:   0000088A  fs_rshift_a                        _fsrshift
+C:   000008CD  fsgetarg                           _fsget1arg
+
 ASxxxx Linker V03.00 + NoICE + sdld,  page 17.
 
 Files Linked                              [ module(s) ]

@@ -80,9 +80,9 @@ C:   000000B3  s_GSFINAL
 C:   000000B6  s_CSEG                          
 C:   000000DA  l_SSEG                          
 C:   00000100  l_IRAM                          
-C:   00000733  l_CSEG                          
-C:   000007E9  s_CONST                         
-C:   000007E9  s_XINIT                         
+C:   00000736  l_CSEG                          
+C:   000007EC  s_CONST                         
+C:   000007EC  s_XINIT                         
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 Hexadecimal  [32-Bits]
@@ -327,43 +327,43 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-CSEG                                000000B6    00000733 =        1843. bytes (REL,CON,CODE)
+CSEG                                000000B6    00000736 =        1846. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
 C:   000000B6  _delay                             main
 C:   000000C8  _DelayXus                          main
 C:   000000E4  _DisplayDigits                     main
-C:   0000018C  _Init_DS18B20                      main
-C:   000001B5  _ReadOneByte                       main
-C:   000001F2  _WriteOneByte                      main
-C:   0000021A  _ReadTemperature                   main
-C:   0000025E  _Temperature_Process               main
-C:   000003EF  _main                              main
-C:   0000041D  ___fsmul                           _fsmul
-C:   000004C0  fsgetargs                          _fsget2args
-C:   000004EE  fs_normalize_a                     _fsnormalize
-C:   00000521  __moduint                          _moduint
-C:   0000056E  __divuint                          _divuint
-C:   00000597  ___fsadd                           _fsadd
-C:   0000059A  fsadd_direct_entry                 _fsadd
-C:   000005F0  ___sint2fs                         _sint2fs
-C:   000005FD  ___fs2sint                         _fs2sint
-C:   00000631  fs_round_and_return                _fsreturnval
-C:   00000649  fs_zerocheck_return                _fsreturnval
-C:   00000652  fs_return_zero                     _fsreturnval
-C:   0000065A  fs_direct_return                   _fsreturnval
-C:   00000668  fs_return_inf                      _fsreturnval
-C:   00000675  fs_return_nan                      _fsreturnval
-C:   00000680  fs_swap_a_b                        _fsswapargs
-C:   0000069A  __modsint                          _modsint
-C:   000006D0  ___slong2fs                        _slong2fs
-C:   000006D9  slong2fs_doit                      _slong2fs
-C:   000006FD  __divsint                          _divsint
-C:   00000735  fs_rshift_a                        _fsrshift
-C:   00000778  ___fs2slong                        _fs2slong
-C:   000007D3  __sdcc_external_startup            _startup
-C:   000007D7  fsgetarg                           _fsget1arg
+C:   0000018F  _Init_DS18B20                      main
+C:   000001B8  _ReadOneByte                       main
+C:   000001F5  _WriteOneByte                      main
+C:   0000021D  _ReadTemperature                   main
+C:   00000261  _Temperature_Process               main
+C:   000003F2  _main                              main
+C:   00000420  ___fsmul                           _fsmul
+C:   000004C3  fsgetargs                          _fsget2args
+C:   000004F1  fs_normalize_a                     _fsnormalize
+C:   00000524  __moduint                          _moduint
+C:   00000571  __divuint                          _divuint
+C:   0000059A  ___fsadd                           _fsadd
+C:   0000059D  fsadd_direct_entry                 _fsadd
+C:   000005F3  ___sint2fs                         _sint2fs
+C:   00000600  ___fs2sint                         _fs2sint
+C:   00000634  fs_round_and_return                _fsreturnval
+C:   0000064C  fs_zerocheck_return                _fsreturnval
+C:   00000655  fs_return_zero                     _fsreturnval
+C:   0000065D  fs_direct_return                   _fsreturnval
+C:   0000066B  fs_return_inf                      _fsreturnval
+C:   00000678  fs_return_nan                      _fsreturnval
+C:   00000683  fs_swap_a_b                        _fsswapargs
+C:   0000069D  __modsint                          _modsint
+C:   000006D3  ___slong2fs                        _slong2fs
+C:   000006DC  slong2fs_doit                      _slong2fs
+C:   00000700  __divsint                          _divsint
+C:   00000738  fs_rshift_a                        _fsrshift
+C:   0000077B  ___fs2slong                        _fs2slong
+C:   000007D6  __sdcc_external_startup            _startup
+C:   000007DA  fsgetarg                           _fsget1arg
 ASxxxx Linker V03.00 + NoICE + sdld,  page 17.
 
 Files Linked                              [ module(s) ]

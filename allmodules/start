@@ -3,13 +3,13 @@
 typedef unsigned char uchar;
 typedef unsigned int uint;
 
-***********************************delay functions******************************************
+//***********************************delay functions******************************************
 void delay(uint i)
 {
 	while(i--);
 }
 
-void DelayXus(uint x)
+void DelayXms(uint x)
 {
 	uchar i;
 	while(x--)
